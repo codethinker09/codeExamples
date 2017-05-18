@@ -1,0 +1,2 @@
+1. This project read input string and convert to QR code.
+2. Reads QR code and generates back same string
