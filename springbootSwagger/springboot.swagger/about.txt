@@ -1,0 +1,4 @@
+1. This project is about integration of spring boot with swagger API.
+2. Swagger api is meant for documentation purpose of rest api's, services.
+3. run the project - mvn -Dserver.port=8888 spring-boot:run
+4. Hit the url - http://localhost:8888/swagger-ui.html
