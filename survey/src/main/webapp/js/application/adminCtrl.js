@@ -1,0 +1,1 @@
+var adminCtrl = angular.module("surveyApp");

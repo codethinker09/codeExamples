@@ -1,0 +1,1 @@
+var thankCtrl = angular.module("surveyApp");

@@ -1,0 +1,190 @@
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3,
+	.col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9,
+	.col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3,
+	.col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9,
+	.col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3,
+	.col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9,
+	.col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3,
+	.col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+	padding-right: 5px !important;
+	padding-left: 5px !important;
+}
+
+.boldText {
+	font-family: 'Oswald', sans-serif;
+	font-weight: 400;
+	font-size: 16px;
+	color: #212121;
+}
+
+.nav>li>a:hover {
+	font-family: 'Oswald', sans-serif;
+	font-weight: 400;
+	font-size: 16px;
+	color: #212121;
+}
+
+.lightText {
+	font-family: 'Oswald', sans-serif;
+	font-weight: 400;
+	color: #666666;
+}
+
+.lightestText {
+	font-family: 'Oswald', sans-serif;
+	font-weight: 400;
+	color: #bababa;
+}
+
+.div2 {
+	background-color: #FFFFFF;
+	min-height: 211px;
+	/*	min-width: 293px;	*/
+}
+
+.div2_lead {
+	background-color: #FFFFFF;
+	min-height: 380px;
+	/*	min-width: 293px;	*/
+}
+
+.nopadding {
+	padding-left: 2%;
+	padding-right: 2%;
+}
+
+.greenText {
+	font-family: 'Oswald', sans-serif;
+	font-weight: 400;
+	font-size: 18px;
+	color: #09775e;
+}
+
+.greyBackground {
+	background-color: #eeeeee;
+	padding: 1% 1% 1% 1%;
+	float: left;
+	margin: 0px 12px 1px;
+	width: 92%;
+}
+
+.fullpadding {
+	padding-left: 10%;
+	padding-right: 10%;
+	padding-top: 10%;
+	padding-bottom: 10%;
+}
+
+.text_align_right {
+	text-align: right;
+}
+
+.text_align_left {
+	text-align: left;
+}
+
+.text_align_center {
+	text-align: center;
+	float: auto;
+}
+
+body {font-family: 'Oswald-Light', sans-serif;-webkit-font-smoothing: subpixel-antialiased;-webkit-font-smoothing: antialiased;text-shadow: 0px 0px 1px rgba(0,0,0,0.2);-moz-osx-font-smoothing: grayscale;}
+input{font-family: 'Oswald-Light', sans-serif;-webkit-font-smoothing: subpixel-antialiased;-webkit-font-smoothing: antialiased;text-shadow: 0px 0px 1px rgba(0,0,0,0.2);-moz-osx-font-smoothing: grayscale;}
+
+@font-face {
+	font-family: 'Oswald';
+	src: url('../../../../css/fonts/Oswald.eot');
+	src: local('@'), url('../../../../css/fonts/Oswald.woff') format('woff'), url('../../../../css/fonts/Oswald.ttf') format('truetype'), url('../../../../css/fonts/Oswald.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Oswald-Light';
+	src: url('../../../../css/fonts/Oswald-Light.eot');
+	src: local('@'), url('../../../../css/fonts/Oswald-Light.woff') format('woff'), url('../../../../css/fonts/Oswald-Light.ttf') format('truetype'), url('../../../../css/fonts/Oswald-Light.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.mybody {background-color:#F0F0F0; margin:0 auto;}
+
+.lightText {font-weight: bold; color: #666666;}
+
+g text{font-family: 'Oswald', sans-serif !important; }
+
+.clear_both{clear:both;}
+
+.lightTextHeading {
+	font-family: 'Oswald', sans-serif;
+	font-weight: 400;
+	font-size: 18px;
+	color: #666666;
+}
+
+.nv-label:nth-child(1) {
+	transform: translate(0px, -2px);
+	);
+}
+
+.nv-label:nth-child(2) {
+	transform: translate(0px, 16px);
+	);
+}
+
+.boldTextHeading {
+	font-family: 'Oswald', sans-serif;
+	font-weight: 400;
+	font-size: 18px;
+	color: #212121;
+}
+
+.medium_block {
+	min-width: 320px;
+}
+
+.small_block {
+	/* 	min-width:180px; */
+	background-color: #FFFFFF;
+	min-height: 80px;
+}
+
+.small_block_cities {
+	/* 	min-width:180px; */
+	background-color: #FFFFFF;
+	min-height: 150px;
+}
+
+.the-word-break {
+	overflow-wrap: break-word;
+}
+
+.glyphicon.glyphicon-remove-circle {
+	font-size: 25px;
+}
+
+g text {
+	font-family: 'Oswald', sans-serif !important;
+	font-weight: bold !important;
+	font-size: 12px !important;
+}
+
+#loading_Overlay {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+
+#loading_Overlay {
+	background: grey;
+	opacity: .7;
+	z-index: 2;
+	display: none;
+}
+
+#loading_img {
+	position: absolute;
+	top: 40%;
+	left: 45%;
+	z-index: 3;
+	display: none;
+}
