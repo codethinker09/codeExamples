@@ -1,0 +1,37 @@
+<div class="container-fluid" ng-controller="thanksController">
+
+	<div class="col-md-3 greyText">
+		<label class="lable-align">Enter super admin</label> 
+		<input type="text" name="optional" ng-model="superAdmin" value="" /> <br>
+	</div>
+
+	<div>
+		<button class="btn btn-primary" ng-click="validateSuperAdmin()">Submit</button>
+	</div>
+	
+	<div ng-show="{{isSuperAdmin}}">
+                            <p class="show-input input-group pull-left">
+                                <input type="text" class="pull-left" uib-datepicker-popup="dd/MM/yyyy" ng-model="fromDate" is-open="dpOpenStatus.withoutRequired" />
+                                <span class="pull-left">
+					                <button type="button" class="cal_icon btn btn-default su_cal_btn" ng-click="setDpOpenStatus('withoutRequired', $event)">
+					                  <i class=" glyphicon glyphicon-calendar"></i>
+					                </button>
+             					</span>
+                            </p>
+							
+							<p class="show-input input-group pull-left">
+                                <input type="text" class="pull-left" uib-datepicker-popup="dd/MM/yyyy" ng-model="toDate" is-open="dpOpenStatus.withoutRequired1" />
+                                <span class="pull-left">
+					                <button type="button" class="cal_icon btn btn-default su_cal_btn" ng-click="setDpOpenStatus('withoutRequired1', $event)">
+					                  <i class=" glyphicon glyphicon-calendar"></i>
+					                </button>
+             					</span>
+                            </p>
+							
+		<button class="btn btn-primary" ng-click="searchSurvey()">Search</button>
+							
+	</div>
+	
+	 <div class="gridStyle" ng-grid="gridOptions">
+	 
+</div>

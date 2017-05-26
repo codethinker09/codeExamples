@@ -41,10 +41,10 @@
 			<div class="col-md-3 greyText" >
 				<label class="lable-align">1: What Builder Tools Product was your issue related to? choose	one</label>
 						
-				<label> <input type="radio" value = "1" ng-model="surveyPojo.issue">A</label><br/> 
-				<label> <input type="radio" value = "2" ng-model="surveyPojo.issue">B</label><br/>
-				<label> <input type="radio" value = "3" ng-model="surveyPojo.issue">C</label><br/>
-				<label> <input type="radio" value = "0" ng-model="surveyPojo.issue">Others</label><br/>
+				<label> <input type="radio" value = "1" ng-model="issue">A</label><br/> 
+				<label> <input type="radio" value = "2" ng-model="issue">B</label><br/>
+				<label> <input type="radio" value = "3" ng-model="issue">C</label><br/>
+				<label> <input type="radio" value = "0" ng-model="issue">Others</label><br/>
 			</div>
 			
 			<div class="col-md-3 greyText" >
@@ -71,25 +71,25 @@
 						<tr>
 							<td>With the teams overall handling of your issue?</td>
 							<td class="centered"><input type="radio"
-								ng-model="surveyPojo.servicerating" id="2_0_0" value="1" /></td>
+								ng-model="servicerating" id="2_0_0" value="1" /></td>
 							<td class="centered"><input type="radio"
-								ng-model="surveyPojo.servicerating" id="2_0_1" value="2" /></td>
+								ng-model="servicerating" id="2_0_1" value="2" /></td>
 							<td class="centered"><input type="radio"
-								ng-model="surveyPojo.servicerating" id="2_0_2" value="3" /></td>
+								ng-model="servicerating" id="2_0_2" value="3" /></td>
 							<td class="centered"><input type="radio"
-								ng-model="surveyPojo.servicerating" id="2_0_3" value="4" /></td>
+								ng-model="servicerating" id="2_0_3" value="4" /></td>
 						</tr>
 
 						<tr>
 							<td>With the time it took to resolve your issue?</td>
 							<td class="centered"><input type="radio"
-								ng-model="surveyPojo.servicetimetating" id="2_1_0" value="1" /></td>
+								ng-model="servicetimetating" id="2_1_0" value="1" /></td>
 							<td class="centered"><input type="radio"
-								ng-model="surveyPojo.servicetimetating" id="2_1_1" value="2" /></td>
+								ng-model="servicetimetating" id="2_1_1" value="2" /></td>
 							<td class="centered"><input type="radio"
-								ng-model="surveyPojo.servicetimetating" id="2_1_2" value="3" /></td>
+								ng-model="servicetimetating" id="2_1_2" value="3" /></td>
 							<td class="centered"><input type="radio"
-								ng-model="surveyPojo.servicetimetating" id="2_1_3" value="4" /></td>
+								ng-model="servicetimetating" id="2_1_3" value="4" /></td>
 						</tr>
 					</tbody>
 				</table>
@@ -98,12 +98,12 @@
 			<div class="col-md-3 greyText" >
 				<label class="lable-align">3. Please provide any other comments about the support of your issue or about the product. <small>(click and drag in the
 						bottom right to resize the text area)</label>
-				<textarea id="3" rows="6" name="feedback" ng-model = "surveyPojo.feedback" style="width: 800px;"></textarea>
+				<textarea id="3" rows="6" name="feedback" ng-model = "feedback" style="width: 800px;"></textarea>
 			</div>
 			
 			<div class="col-md-3 greyText" >
 				<label class="lable-align">4. [Optional] Link to Issue or TT related to this feedback.</label>
-				<input type="text" name="optional" ng-model = "surveyPojo.optional" value="" /> <br>
+				<input type="text" name="optional" ng-model = "optional" value="" /> <br>
 			</div>
 			
 			<div>

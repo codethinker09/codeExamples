@@ -1,22 +1,26 @@
 package org.ankur.survey.controller;
 
 import org.ankur.survey.pojo.Response;
-import org.ankur.survey.pojo.SurveyPojo;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SurveyController {
+public class AdminController {
 
-	@RequestMapping(value = "/addSurvey", method = RequestMethod.POST)
-	public Response addSurvey(@RequestBody SurveyPojo surveyPojo) {
+	@RequestMapping(value = "/validateSuperAdmin", method = RequestMethod.POST)
+	public Response addSurvey(@RequestBody String superAdmin) {
 
 		Response response = null;
 
 		try {
-			response = new Response("message", "Success");
+			if (superAdmin.equalsIgnoreCase("ankur")) {
+				response = new Response("message", "Success");
+			} else {
+				response = new Response("message", "Error");
+			}
+
 		} catch (Exception e) {
 			response = new Response("message", "Error");
 		}

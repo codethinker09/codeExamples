@@ -2,40 +2,37 @@
 
 var surveyModule = angular.module("surveyApp");
 
-surveyModule.controller("surveyController", function($scope, $rootScope, $http) {
-	alert(99);
+surveyModule.controller("surveyController", function($scope, $rootScope, $http, $location) {
+	
 	$scope.doSubmitSurvey = function() {
-		
-		console.log($scope.surveyPojo);
 		
 		$('#loading_Overlay').show();
 		$('#loading_img').show();
 		
-		alert(1);
-		
 		var dataObj = {
-				"issue" : $scope.surveyPojo.issue,
-				"servicerating" : scope.surveyPojo.servicerating,
-				"servicetimetating" : scope.surveyPojo.servicetimetating,
-				"feedback" : scope.surveyPojo.feedback,
-				"optional" : scope.surveyPojo.optional,
-				"username" : scope.surveyPojo.username
+				"issue" : $scope.issue,
+				"servicerating" : $scope.servicerating,
+				"servicetimetating" : $scope.servicetimetating,
+				"feedback" : $scope.feedback,
+				"optional" : $scope.optional,
+				"username" : $scope.username
 		};	
 		
-		/*$http({
+		$http({
 			method : "POST",
-			url : "../../../survey/addSurvey",
+			url : "/survey/survey/addSurvey",
 			data : JSON.stringify(dataObj),
 			headers : {'Content-Type' : 'application/json'}
-		}).then(function(response,data) {
+		}).then(function(response) {
 			console.log(response);
-			console.log(data);
 			$('#loading_Overlay').hide();
 			$('#loading_img').hide();
-		});*/
+			//$location.path("../../thanks");
+			window.location = "#/thanks";
+		});
 		
-		$.ajax({
-			    url: '../../../survey/addSurvey',
+		/*$.ajax({
+			    url: '/survey/survey/addSurvey',
 			    type: 'POST',
 			    dataType: 'json',
 			    data: JSON.stringify(dataObj),
@@ -50,7 +47,7 @@ surveyModule.controller("surveyController", function($scope, $rootScope, $http) 
 			    		$('#loading_Overlay').hide();
 			    		$('#loading_img').hide();
 			      }
-			});
+			});*/
 		
 	};
 	
