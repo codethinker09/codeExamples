@@ -3,7 +3,7 @@
 var adminCtrl = angular.module("surveyApp");
 
 adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
-	$scope.isSuperAdmin = true;
+	$scope.isSuperAdmin = false;
 	
 	$scope.fromDate = new Date();
 	$scope.toDate = new Date();
@@ -26,11 +26,11 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 			data : $scope.superAdmin,
 			headers : {'Content-Type' : 'application/json'}
 		}).then(function(response) {
-			console.log(response);
+			
 			$('#loading_Overlay').hide();
 			$('#loading_img').hide();
 			
-			var JSONObject = JSON.parse(response);
+			var JSONObject = response.data;
 			var messageVal = JSONObject["message"];
 			
 			if(messageVal == "Success"){

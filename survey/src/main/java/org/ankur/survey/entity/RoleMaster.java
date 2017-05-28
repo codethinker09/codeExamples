@@ -9,18 +9,16 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "users")
-public class User implements Serializable {
+@Table(name = "roles_master")
+public class RoleMaster implements Serializable {
 
-	private static final long serialVersionUID = 3673550758258071281L;
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String userName;
-
-	private Long roleId;
+	private String roleName;
 
 	public Long getId() {
 		return id;
@@ -30,20 +28,12 @@ public class User implements Serializable {
 		this.id = id;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getRoleName() {
+		return roleName;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
-	public Long getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(Long roleId) {
-		this.roleId = roleId;
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 
 }

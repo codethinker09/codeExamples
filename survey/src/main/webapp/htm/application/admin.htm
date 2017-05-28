@@ -1,4 +1,4 @@
-<div class="container-fluid" ng-controller="thanksController">
+<div class="container-fluid" ng-controller="adminController">
 
 	<div class="col-md-3 greyText">
 		<label class="lable-align">Enter super admin</label> 
@@ -32,6 +32,6 @@
 							
 	</div>
 	
-	 <div class="gridStyle" ng-grid="gridOptions">
+	 <div ng-show="{{isSuperAdmin}}" class="gridStyle" ng-grid="gridOptions">
 	 
 </div>

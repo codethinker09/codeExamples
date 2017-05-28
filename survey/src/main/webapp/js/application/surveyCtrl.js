@@ -24,10 +24,8 @@ surveyModule.controller("surveyController", function($scope, $rootScope, $http, 
 			data : JSON.stringify(dataObj),
 			headers : {'Content-Type' : 'application/json'}
 		}).then(function(response) {
-			console.log(response);
 			$('#loading_Overlay').hide();
 			$('#loading_img').hide();
-			//$location.path("../../thanks");
 			window.location = "#/thanks";
 		});
 		
