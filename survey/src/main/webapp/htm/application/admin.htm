@@ -9,7 +9,7 @@
 		<button class="btn btn-primary" ng-click="validateSuperAdmin()">Submit</button>
 	</div>
 	
-	<div ng-show="{{isSuperAdmin}}">
+	<div ng-show="isSuperAdmin">
                             <p class="show-input input-group pull-left">
                                 <input type="text" class="pull-left" uib-datepicker-popup="dd/MM/yyyy" ng-model="fromDate" is-open="dpOpenStatus.withoutRequired" />
                                 <span class="pull-left">
@@ -32,6 +32,6 @@
 							
 	</div>
 	
-	 <div ng-show="{{isSuperAdmin}}" class="gridStyle" ng-grid="gridOptions">
+	 <div ng-show="isSuperAdmin" class="gridStyle" ng-grid="gridOptions">
 	 
 </div>

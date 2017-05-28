@@ -31,7 +31,7 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 			$('#loading_img').hide();
 			
 			var JSONObject = response.data;
-			var messageVal = JSONObject["message"];
+			var messageVal = JSONObject["value"];
 			
 			if(messageVal == "Success"){
 				// show here
@@ -61,7 +61,6 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 			data : JSON.stringify(dataObj),
 			headers : {'Content-Type' : 'application/json'}
 		}).then(function(response) {
-			console.log(response);
 			$('#loading_Overlay').hide();
 			$('#loading_img').hide();
 			
