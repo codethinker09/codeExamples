@@ -106,12 +106,13 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 		$scope.gridOptions = { 
 		data: 'myData',
 		columnDefs: [
-				{field: 'user', displayName: 'User'},
-				{field:'issueType', displayName:'Issue Type'},
+				{field: 'user', displayName: 'Person Name'},
+				{field:'issueType', displayName:'Service Name'},
 				{field:'servicerating', displayName:'Service Rating'},
 				{field:'servicetimetating', displayName:'Service Time Rating'},
+				{field:'optional', displayName:'Optional issue link'},
 				{field:'feedback', displayName:'Feedback'},
-				{field:'optional', displayName:'Optional'}
+				{field:'createdDate', displayName:'Date'}
 			]
 		};
 		

@@ -1,5 +1,7 @@
 package org.ankur.survey.pojo;
 
+import java.util.Date;
+
 public class SearchSurveyResponse {
 
 	private String user;
@@ -14,8 +16,11 @@ public class SearchSurveyResponse {
 
 	private String optional;
 
-	public SearchSurveyResponse(String user, String issueType, String servicerating, String servicetimetating,
-			String feedback, String optional) {
+	private Date createdDate;
+
+	public SearchSurveyResponse(String user, String issueType,
+			String servicerating, String servicetimetating, String feedback,
+			String optional, Date date) {
 		super();
 		this.user = user;
 		this.issueType = issueType;
@@ -23,6 +28,7 @@ public class SearchSurveyResponse {
 		this.servicetimetating = servicetimetating;
 		this.feedback = feedback;
 		this.optional = optional;
+		this.setCreatedDate(date);
 	}
 
 	public String getUser() {
@@ -71,6 +77,14 @@ public class SearchSurveyResponse {
 
 	public void setOptional(String optional) {
 		this.optional = optional;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 }

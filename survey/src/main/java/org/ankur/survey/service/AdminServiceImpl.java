@@ -92,7 +92,8 @@ public class AdminServiceImpl implements AdminService {
 						surveyData.getUsername(), surveyData.getIssue(),
 						surveyData.getServicerating(),
 						surveyData.getServicetimetating(),
-						surveyData.getFeedback(), surveyData.getOptional());
+						surveyData.getFeedback(), surveyData.getOptional(),
+						surveyData.getCreated());
 
 				searchSurveyResponses.add(searchSurveyResponse);
 			}

@@ -34,7 +34,7 @@ public class CSVFileDownloadController {
 				+ reportName);
 
 		List<String> rows = new ArrayList<String>();
-		rows.add("Username,Issue Type,Service Rating,Service Time Rating,Feedback,Optional");
+		rows.add("Person Name,Service Name,Service Rating,Service Time Rating,Feedback,Optional issue link,Date");
 		rows.add("\n");
 
 		List<SearchSurveyResponse> searchSurveyResponses = adminServiceImpl
@@ -46,7 +46,8 @@ public class CSVFileDownloadController {
 					+ searchSurveyResponse.getServicerating() + ","
 					+ searchSurveyResponse.getServicetimetating() + ","
 					+ searchSurveyResponse.getFeedback() + ","
-					+ searchSurveyResponse.getOptional());
+					+ searchSurveyResponse.getOptional() + ","
+					+ searchSurveyResponse.getCreatedDate());
 			rows.add("\n");
 		}
 
