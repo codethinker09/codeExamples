@@ -3,7 +3,7 @@
 var adminCtrl = angular.module("surveyApp");
 
 adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
-	$scope.isSuperAdmin = false;
+	$scope.isSuperAdmin = true;
 	
 	$scope.fromDate = new Date();
 	$scope.toDate = new Date();
@@ -68,6 +68,38 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 			
 		});
 	}
+	
+	// download report
+	
+	$scope.reportDownload = function(){
+		
+			$('#loading_Overlay').show();
+			$('#loading_img').show();
+			
+		var dataObj = {
+				"fromDate" : $scope.fromDate,
+				"toDate" : $scope.toDate
+		};	
+		
+		$http({
+			method : "POST",
+			url : "/survey/survey/downloadCSV",
+			data : JSON.stringify(dataObj),
+			headers : {'Content-Type' : 'application/json'}
+		}).then(function(response) {
+			$('#loading_Overlay').hide();
+			$('#loading_img').hide();
+			var anchor = angular.element('<a/>');
+			angular.element(document.body).append(anchor);
+			 anchor.attr({
+				 href: 'data:attachment/csv;charset=utf-8,' + encodeURI(response.data),
+				 target: '_blank',
+				 download: 'Service_rating.csv'
+			 })[0].click();
+			 anchor.remove();
+		});
+	}
+	
 	
 // grid options
 		
