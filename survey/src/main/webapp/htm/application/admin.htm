@@ -35,10 +35,18 @@
 							
 		<button class="btn btn-primary" ng-click="searchSurvey()">Search</button>&nbsp;&nbsp;
 		<button class="btn btn-primary" ng-click="reportDownload()">Download Report</button>
-							
+	
+		<br/><br/>
+		<div class="row-fluid">
+			<div class="col-md-6" google-chart chart="myChartObjectSR" on-select="srSelected(selectedItem)" style="height:300px; width:60%;"></div>
+			<div class="col-md-6" google-chart chart="myChartObjectSTR" on-select="strSelected(selectedItem)" style="height:300px; width:60%;"></div>
+		</div>
+	
+		<br/><br/>
+		<div ng-show="isSuperAdmin" class="gridStyle" ng-grid="gridOptions">
+	 
 	</div>
 	
-	<br/><br/>
-	 <div ng-show="isSuperAdmin" class="gridStyle" ng-grid="gridOptions">
+	
 	 
 </div>

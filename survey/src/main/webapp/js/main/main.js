@@ -3,7 +3,7 @@
 (function() {
 
 	var app = angular.module("surveyApp",
-			[ 'ngCookies', 'restangular', 'ui.bootstrap', 'ngRoute','ngGrid', 'ui.bootstrap.datetimepicker']).config(
+			[ 'ngCookies', 'restangular', 'ui.bootstrap', 'ngRoute','ngGrid', 'ui.bootstrap.datetimepicker','googlechart']).config(
 			function(RestangularProvider) {
 				RestangularProvider.setBaseUrl('/survey');
 				RestangularProvider.setErrorInterceptor(function(response,

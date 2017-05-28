@@ -15,6 +15,14 @@ background-color: #3a20f8;
 height:20px;
 }
 
+.thanksDiv{
+background-color: #41f820;
+height:100px;
+border:1px solid black;
+padding: 5px 0px 5px 2px;
+margin-top:25px;
+}
+
 .alertDiv{
 background-color: #f8cd20;
 height:40px;
