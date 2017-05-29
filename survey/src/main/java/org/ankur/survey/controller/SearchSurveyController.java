@@ -29,8 +29,7 @@ public class SearchSurveyController {
 	private AdminService adminServiceImpl;
 
 	@RequestMapping(value = "/searchSurvey", method = RequestMethod.POST)
-	public SearchSurveyResponseWrapper addSurvey(
-			@RequestBody SearchSurveyRequest searchSurveyRequest) {
+	public SearchSurveyResponseWrapper addSurvey(@RequestBody SearchSurveyRequest searchSurveyRequest) {
 
 		Map<String, Integer> serviceRatingCountMap = new TreeMap<String, Integer>();
 		serviceRatingCountMap.put("1", 0);
@@ -48,8 +47,7 @@ public class SearchSurveyController {
 
 		List<SearchSurveyResponse> searchSurveyResponses = adminServiceImpl
 				.fetchSurveyDataFilterBased(searchSurveyRequest);
-		searchSurveyResponseWrapper
-				.setSearchSurveyResponseList(searchSurveyResponses);
+		searchSurveyResponseWrapper.setSearchSurveyResponseList(searchSurveyResponses);
 
 		if (!(CollectionUtils.isEmpty(searchSurveyResponses))) {
 			for (SearchSurveyResponse searchSurveyResponse : searchSurveyResponses) {
@@ -57,47 +55,47 @@ public class SearchSurveyController {
 				int serviceRatingCount = 0;
 				int serviceTimeRatingCount = 0;
 
-				if (serviceRatingCountMap.containsKey(searchSurveyResponse
-						.getServicerating())) {
-					serviceRatingCount = serviceRatingCountMap
-							.get(searchSurveyResponse.getServicerating());
+				if (serviceRatingCountMap.containsKey(searchSurveyResponse.getServicerating())) {
+					serviceRatingCount = serviceRatingCountMap.get(searchSurveyResponse.getServicerating());
 					serviceRatingCount = serviceRatingCount + 1;
 				} else {
 					serviceRatingCount = 1;
 				}
 
-				serviceRatingCountMap.put(
-						searchSurveyResponse.getServicerating(),
-						serviceRatingCount);
+				serviceRatingCountMap.put(searchSurveyResponse.getServicerating(), serviceRatingCount);
 
-				if (serviceTimeRatingCountMap.containsKey(searchSurveyResponse
-						.getServicetimetating())) {
-					serviceTimeRatingCount = serviceTimeRatingCountMap
-							.get(searchSurveyResponse.getServicetimetating());
+				if (serviceTimeRatingCountMap.containsKey(searchSurveyResponse.getServicetimetating())) {
+					serviceTimeRatingCount = serviceTimeRatingCountMap.get(searchSurveyResponse.getServicetimetating());
 					serviceTimeRatingCount = serviceTimeRatingCount + 1;
 				} else {
 					serviceTimeRatingCount = 1;
 				}
 
-				serviceTimeRatingCountMap.put(
-						searchSurveyResponse.getServicetimetating(),
-						serviceTimeRatingCount);
+				serviceTimeRatingCountMap.put(searchSurveyResponse.getServicetimetating(), serviceTimeRatingCount);
 			}
 		}
 
-		convertToPieChartDataSet(serviceRatingCountMap,
-				searchSurveyResponseWrapper, true);
+		convertToPieChartDataSet(serviceRatingCountMap, searchSurveyResponseWrapper, true);
 
-		convertToPieChartDataSet(serviceTimeRatingCountMap,
-				searchSurveyResponseWrapper, false);
+		convertToPieChartDataSet(serviceTimeRatingCountMap, searchSurveyResponseWrapper, false);
 
 		return searchSurveyResponseWrapper;
 	}
 
-	private void convertToPieChartDataSet(
-			Map<String, Integer> serviceRatingCountMap,
-			SearchSurveyResponseWrapper searchSurveyResponseWrapper,
-			boolean isServiceRating) {
+	@RequestMapping(value = "/searchSurveyPieClick", method = RequestMethod.POST)
+	public SearchSurveyResponseWrapper searchSurveyPieClick(@RequestBody SearchSurveyRequest searchSurveyRequest) {
+
+		SearchSurveyResponseWrapper searchSurveyResponseWrapper = new SearchSurveyResponseWrapper();
+
+		List<SearchSurveyResponse> searchSurveyResponses = adminServiceImpl
+				.fetchSurveyDataFilterBased(searchSurveyRequest);
+		searchSurveyResponseWrapper.setSearchSurveyResponseList(searchSurveyResponses);
+
+		return searchSurveyResponseWrapper;
+	}
+
+	private void convertToPieChartDataSet(Map<String, Integer> serviceRatingCountMap,
+			SearchSurveyResponseWrapper searchSurveyResponseWrapper, boolean isServiceRating) {
 		PieWrapperPojo pieWrapper = new PieWrapperPojo();
 		List<PieChartPojo> pieChartPojos = new ArrayList<PieChartPojo>();
 

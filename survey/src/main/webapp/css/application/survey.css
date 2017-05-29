@@ -31,6 +31,10 @@ margin-top:15px;
 
 .marginDiv{margin-top:15px;}
 
+.marginDivPie{margin-top:25px;margin-bottom:25px;}
+
+.container{float: left !important; background: #fff; width: 100%;}
+
 .separator{border-bottom:1px solid #d6d6d6;margin-top:2px;}
 
 .borderDiv{border:1px solid black;padding: 5px 0px 5px 2px;margin-top:15px;}
@@ -150,6 +154,6 @@ g text {
 
 .gridStyle {
     border: 1px solid rgb(212,212,212);
-    width: 700px; 
+    width: 100%; 
     height: 300px
 }

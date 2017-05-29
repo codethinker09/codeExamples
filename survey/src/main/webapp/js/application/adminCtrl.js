@@ -3,7 +3,7 @@
 var adminCtrl = angular.module("surveyApp");
 
 adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
-	$scope.isSuperAdmin = true;
+	$scope.isSuperAdmin = false;
 	$scope.pieDataSR;
 	$scope.pieDataSTR;
 	$scope.myChartObjectSR = {};
@@ -102,7 +102,9 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 			
 		var dataObj = {
 				"fromDate" : $scope.fromDate,
-				"toDate" : $scope.toDate
+				"toDate" : $scope.toDate,
+				"servicerating" : "",
+				"servicetimetating": ""
 		};	
 		
 		$http({
@@ -202,19 +204,66 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 	}
 
     $scope.myChartObjectSR.options = {
-        'title': 'Service Rating'
+        'title': 'Service Rating',
+		'colors': ['#fe041f', '#fe8904', '#b6fe04', '#1ba189']
     };
 	
 	$scope.myChartObjectSTR.options = {
-        'title': 'Service Time Rating'
+        'title': 'Service Time Rating',
+		'colors': ['#fe041f', '#fe8904', '#b6fe04', '#1ba189']
     };
 	
 	$scope.srSelected = function (selectedItem) {
-	  alert(selectedItem.row);
+		$('#loading_Overlay').show();
+		$('#loading_img').show();
+		
+		var dataObj = {
+				"fromDate" : $scope.fromDate,
+				"toDate" : $scope.toDate,
+				"servicerating" : selectedItem.row + 1,
+				"servicetimetating": ""
+		};	
+	
+	$http({
+		method : "POST",
+		url : "/survey/survey/searchSurveyPieClick",
+		data : JSON.stringify(dataObj),
+		headers : {'Content-Type' : 'application/json'}
+	}).then(function(response) {
+		$('#loading_Overlay').hide();
+		$('#loading_img').hide();
+		
+		$scope.myData = response.data.searchSurveyResponseList;						
+		
+	});
+
+	
 	}
 	
 	$scope.strSelected = function (selectedItem) {
-	  alert(selectedItem.row);
+	  $('#loading_Overlay').show();
+		$('#loading_img').show();
+		
+		var dataObj = {
+				"fromDate" : $scope.fromDate,
+				"toDate" : $scope.toDate,
+				"servicerating" : "",
+				"servicetimetating": selectedItem.row + 1
+		};	
+	
+	$http({
+		method : "POST",
+		url : "/survey/survey/searchSurveyPieClick",
+		data : JSON.stringify(dataObj),
+		headers : {'Content-Type' : 'application/json'}
+	}).then(function(response) {
+		$('#loading_Overlay').hide();
+		$('#loading_img').hide();
+		
+		$scope.myData = response.data.searchSurveyResponseList;						
+		
+	});
+
 	}
 
 // grid options
@@ -222,13 +271,13 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 		$scope.gridOptions = { 
 		data: 'myData',
 		columnDefs: [
-				{field: 'user', displayName: 'Person Name'},
-				{field:'issueType', displayName:'Service Name'},
-				{field:'servicerating', displayName:'Service Rating'},
-				{field:'servicetimetating', displayName:'Service Time Rating'},
-				{field:'optional', displayName:'Optional issue link'},
-				{field:'feedback', displayName:'Feedback'},
-				{field:'createdDate', displayName:'Date'}
+				{field: 'user', displayName: 'Person Name',width: '140px'},
+				{field:'issueType', displayName:'Service Name',width: '120px'},
+				{field:'servicerating', displayName:'Service Rating',width: '170px'},
+				{field:'servicetimetating', displayName:'Service Time Rating',width: '200px'},
+				{field:'optional', displayName:'Optional issue link',width: '210px'},
+				{field:'feedback', displayName:'Feedback',width: '100px'},
+				{field:'createdDate', displayName:'Date',width: '200px'}
 			]
 		};
 		

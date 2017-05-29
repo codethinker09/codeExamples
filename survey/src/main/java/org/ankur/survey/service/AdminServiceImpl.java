@@ -1,6 +1,9 @@
 package org.ankur.survey.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -75,25 +78,22 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public boolean validateSuperAdmin(UserPojo userPojo) {
-		return adminDaoImpl.validateSuperAdmin(userPojo.getUserName(),
-				userPojo.getRoleId());
+		return adminDaoImpl.validateSuperAdmin(userPojo.getUserName(), userPojo.getRoleId());
 	}
 
 	@Override
-	public List<SearchSurveyResponse> fetchSurveyDataFilterBased(
-			SearchSurveyRequest searchSurveyRequest) {
+	public List<SearchSurveyResponse> fetchSurveyDataFilterBased(SearchSurveyRequest searchSurveyRequest) {
 		List<SearchSurveyResponse> searchSurveyResponses = new ArrayList<SearchSurveyResponse>();
 
-		List<SurveyData> surveyDataList = adminDaoImpl
-				.fetchSurveyDataFilterBased(searchSurveyRequest);
+		List<SurveyData> surveyDataList = adminDaoImpl.fetchSurveyDataFilterBased(searchSurveyRequest);
 		if (!(CollectionUtils.isEmpty(surveyDataList))) {
 			for (SurveyData surveyData : surveyDataList) {
-				SearchSurveyResponse searchSurveyResponse = new SearchSurveyResponse(
-						surveyData.getUsername(), surveyData.getIssue(),
-						surveyData.getServicerating(),
-						surveyData.getServicetimetating(),
-						surveyData.getFeedback(), surveyData.getOptional(),
-						surveyData.getCreated());
+				DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				Date date = surveyData.getCreated();
+
+				SearchSurveyResponse searchSurveyResponse = new SearchSurveyResponse(surveyData.getUsername(),
+						surveyData.getIssue(), surveyData.getServicerating(), surveyData.getServicetimetating(),
+						surveyData.getFeedback(), surveyData.getOptional(), df.format(date));
 
 				searchSurveyResponses.add(searchSurveyResponse);
 			}
