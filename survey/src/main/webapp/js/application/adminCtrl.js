@@ -98,13 +98,13 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 	
 		$scope.totalServerItems = 0;
 		$scope.pagingOptions = {
-	          pageSizes: [2, 5, 10],
-	          pageSize: 2,
+	          pageSizes: [10, 50, 100],
+	          pageSize: "10",
 	          currentPage: 1
 	      };	      
 	  	
 		$scope.$watch('pagingOptions', function (newVal, oldVal) {
-	          if (newVal !== oldVal && newVal.currentPage !== oldVal.currentPage) {
+	          if ((newVal !== oldVal) && (newVal.currentPage !== oldVal.currentPage) || (newVal.pageSize !== oldVal.pageSize)) {
 	            	$('#loading_Overlay').show();
 					$('#loading_img').show();
 					

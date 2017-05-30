@@ -1,4 +1,4 @@
-package org.ankur.Spring4MVCAngularJS;
+package org.ankur.survey.tests;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

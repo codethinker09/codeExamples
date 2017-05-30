@@ -6,7 +6,7 @@
 			[ 'ngCookies', 'ui.bootstrap', 'ngRoute','ngGrid', 'ui.bootstrap.datetimepicker','googlechart']);
 	
 
-	app.config(function($routeProvider,$locationProvider){
+	app.config(function($routeProvider){
 		$routeProvider.
 			when('/', {
 			  templateUrl:'htm/application/survey.htm?v=1.0',

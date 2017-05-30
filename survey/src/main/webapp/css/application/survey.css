@@ -82,15 +82,15 @@ input{font-family: 'Oswald-Light', sans-serif;-webkit-font-smoothing: subpixel-a
 
 @font-face {
 	font-family: 'Oswald';
-	src: url('../../../../css/fonts/Oswald.eot');
-	src: local('@'), url('../../../../css/fonts/Oswald.woff') format('woff'), url('../../../../css/fonts/Oswald.ttf') format('truetype'), url('../../../../css/fonts/Oswald.svg') format('svg');
+	src: url('/survey/css/fonts/Oswald.eot');
+	src: local('@'), url('/survey/css/fonts/Oswald.woff') format('woff'), url('/survey/css/fonts/Oswald.ttf') format('truetype'), url('/survey/css/fonts/Oswald.svg') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 @font-face {
 	font-family: 'Oswald-Light';
-	src: url('../../../../css/fonts/Oswald-Light.eot');
-	src: local('@'), url('../../../../css/fonts/Oswald-Light.woff') format('woff'), url('../../../../css/fonts/Oswald-Light.ttf') format('truetype'), url('../../../../css/fonts/Oswald-Light.svg') format('svg');
+	src: url('/survey/css/fonts/Oswald-Light.eot');
+	src: local('@'), url('/survey/css/fonts/Oswald-Light.woff') format('woff'), url('/survey/css/fonts/Oswald-Light.ttf') format('truetype'), url('/survey/css/fonts/Oswald-Light.svg') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
