@@ -3,18 +3,10 @@
 (function() {
 
 	var app = angular.module("surveyApp",
-			[ 'ngCookies', 'restangular', 'ui.bootstrap', 'ngRoute','ngGrid', 'ui.bootstrap.datetimepicker','googlechart']).config(
-			function(RestangularProvider) {
-				RestangularProvider.setBaseUrl('/survey');
-				RestangularProvider.setErrorInterceptor(function(response,
-						deferred, responseHandler) {
-					 console.log("Error occurred - with response status = "+response.status);
-					 return true;
-				});
-			});
+			[ 'ngCookies', 'ui.bootstrap', 'ngRoute','ngGrid', 'ui.bootstrap.datetimepicker','googlechart']);
 	
 
-	app.config(function($routeProvider){
+	app.config(function($routeProvider,$locationProvider){
 		$routeProvider.
 			when('/', {
 			  templateUrl:'htm/application/survey.htm?v=1.0',
@@ -31,6 +23,7 @@
 			otherwise( {
 			  redirectTo : '/survey',
 			  });
+
 		});
 
 		

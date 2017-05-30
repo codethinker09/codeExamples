@@ -21,8 +21,11 @@ public interface AdminService {
 
 	public boolean validateSuperAdmin(UserPojo userPojo);
 
-	public List<SearchSurveyResponse> fetchSurveyDataFilterBased(
-			SearchSurveyRequest searchSurveyRequest);
-	
+	public List<SearchSurveyResponse> fetchSurveyDataFilterBased(SearchSurveyRequest searchSurveyRequest);
+
 	public RoleMasterPojo fetchRoles(String roleName);
+
+	public int fetchSurveyDataCount(SearchSurveyRequest searchSurveyRequest);
+
+	public List<SearchSurveyResponse> fetchSurveyDataFilterBasedPaginated(SearchSurveyRequest searchSurveyRequest);
 }

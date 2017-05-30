@@ -102,6 +102,31 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
+	public List<SearchSurveyResponse> fetchSurveyDataFilterBasedPaginated(SearchSurveyRequest searchSurveyRequest) {
+		List<SearchSurveyResponse> searchSurveyResponses = new ArrayList<SearchSurveyResponse>();
+
+		List<SurveyData> surveyDataList = adminDaoImpl.fetchSurveyDataFilterBasedPaginated(searchSurveyRequest);
+		if (!(CollectionUtils.isEmpty(surveyDataList))) {
+			for (SurveyData surveyData : surveyDataList) {
+				DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				Date date = surveyData.getCreated();
+
+				SearchSurveyResponse searchSurveyResponse = new SearchSurveyResponse(surveyData.getUsername(),
+						surveyData.getIssue(), surveyData.getServicerating(), surveyData.getServicetimetating(),
+						surveyData.getFeedback(), surveyData.getOptional(), df.format(date));
+
+				searchSurveyResponses.add(searchSurveyResponse);
+			}
+		}
+		return searchSurveyResponses;
+	}
+
+	@Override
+	public int fetchSurveyDataCount(SearchSurveyRequest searchSurveyRequest) {
+		return adminDaoImpl.fetchSurveyDataCount(searchSurveyRequest);
+	}
+
+	@Override
 	public RoleMasterPojo fetchRoles(String roleName) {
 		RoleMaster roleMaster = adminDaoImpl.fetchRoles(roleName);
 

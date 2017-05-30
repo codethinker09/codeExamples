@@ -89,6 +89,85 @@ public class AdminDaoImpl extends BaseDaoImpl implements AdminDao {
 	}
 
 	@Override
+	public List<SurveyData> fetchSurveyDataFilterBasedPaginated(SearchSurveyRequest searchSurveyRequest) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		Date frmDate = null;
+		Date enDate = null;
+		try {
+			frmDate = format.parse(searchSurveyRequest.getFromDate());
+			enDate = format.parse(searchSurveyRequest.getToDate());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		String frmDateTemp = DateHelper.getFormattedFromDateTime(frmDate);
+		String endDateTemp = DateHelper.getFormattedToDateTime(enDate);
+
+		String queryStr = "SELECT sd FROM SurveyData sd where sd.created BETWEEN '" + frmDateTemp + "' AND '"
+				+ endDateTemp + "'";
+
+		if (!(StringUtils.isEmpty(searchSurveyRequest.getServicerating()))) {
+			queryStr = queryStr + " AND sd.servicerating = '" + searchSurveyRequest.getServicerating() + "'";
+		}
+
+		if (!(StringUtils.isEmpty(searchSurveyRequest.getServicetimetating()))) {
+			queryStr = queryStr + " AND sd.servicetimetating = '" + searchSurveyRequest.getServicetimetating() + "'";
+		}
+		// order by
+		queryStr = queryStr + " order by sd.created desc";
+
+		Query query = em.createQuery(queryStr);
+
+		int firstResult = 0;
+		if (searchSurveyRequest.getPage() == 1) {
+			firstResult = 0;
+		} else {
+			firstResult = (searchSurveyRequest.getPage() * searchSurveyRequest.getPageSize())
+					- searchSurveyRequest.getPageSize();
+		}
+
+		query.setFirstResult(firstResult);
+		query.setMaxResults(searchSurveyRequest.getPageSize());
+
+		List<SurveyData> surveyDataList = query.getResultList();
+		return surveyDataList;
+	}
+
+	@Override
+	public int fetchSurveyDataCount(SearchSurveyRequest searchSurveyRequest) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		Date frmDate = null;
+		Date enDate = null;
+		try {
+			frmDate = format.parse(searchSurveyRequest.getFromDate());
+			enDate = format.parse(searchSurveyRequest.getToDate());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		String frmDateTemp = DateHelper.getFormattedFromDateTime(frmDate);
+		String endDateTemp = DateHelper.getFormattedToDateTime(enDate);
+
+		String queryStr = "SELECT count(sd) FROM SurveyData sd where sd.created BETWEEN '" + frmDateTemp + "' AND '"
+				+ endDateTemp + "'";
+
+		if (!(StringUtils.isEmpty(searchSurveyRequest.getServicerating()))) {
+			queryStr = queryStr + " AND sd.servicerating = '" + searchSurveyRequest.getServicerating() + "'";
+		}
+
+		if (!(StringUtils.isEmpty(searchSurveyRequest.getServicetimetating()))) {
+			queryStr = queryStr + " AND sd.servicetimetating = '" + searchSurveyRequest.getServicetimetating() + "'";
+		}
+		// order by
+		queryStr = queryStr + " order by sd.created desc";
+
+		Query query = em.createQuery(queryStr);
+
+		int count = ((Long) query.getSingleResult()).intValue();
+		return count;
+	}
+
+	@Override
 	public RoleMaster fetchRoles(String roleName) {
 		Query query = em.createQuery("SELECT rm FROM RoleMaster rm where rm.roleName = '" + roleName + "'");
 		return (RoleMaster) query.getSingleResult();

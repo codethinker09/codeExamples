@@ -47,7 +47,14 @@ public class SearchSurveyController {
 
 		List<SearchSurveyResponse> searchSurveyResponses = adminServiceImpl
 				.fetchSurveyDataFilterBased(searchSurveyRequest);
-		searchSurveyResponseWrapper.setSearchSurveyResponseList(searchSurveyResponses);
+
+		List<SearchSurveyResponse> searchSurveyResponsesPaginated = adminServiceImpl
+				.fetchSurveyDataFilterBasedPaginated(searchSurveyRequest);
+
+		int totalCount = adminServiceImpl.fetchSurveyDataCount(searchSurveyRequest);
+		searchSurveyResponseWrapper.setCount(totalCount);
+
+		searchSurveyResponseWrapper.setSearchSurveyResponseList(searchSurveyResponsesPaginated);
 
 		if (!(CollectionUtils.isEmpty(searchSurveyResponses))) {
 			for (SearchSurveyResponse searchSurveyResponse : searchSurveyResponses) {
@@ -88,7 +95,10 @@ public class SearchSurveyController {
 		SearchSurveyResponseWrapper searchSurveyResponseWrapper = new SearchSurveyResponseWrapper();
 
 		List<SearchSurveyResponse> searchSurveyResponses = adminServiceImpl
-				.fetchSurveyDataFilterBased(searchSurveyRequest);
+				.fetchSurveyDataFilterBasedPaginated(searchSurveyRequest);
+		int totalCount = adminServiceImpl.fetchSurveyDataCount(searchSurveyRequest);
+		searchSurveyResponseWrapper.setCount(totalCount);
+
 		searchSurveyResponseWrapper.setSearchSurveyResponseList(searchSurveyResponses);
 
 		return searchSurveyResponseWrapper;

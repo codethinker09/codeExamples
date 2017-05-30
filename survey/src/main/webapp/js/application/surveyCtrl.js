@@ -4,8 +4,41 @@ var surveyModule = angular.module("surveyApp");
 
 surveyModule.controller("surveyController", function($scope, $rootScope, $http, $location) {
 	
+	$scope.issueTypeErr = "";
+	$scope.serviceTimeRatingErr = "";
+	$scope.serviceRatingErr = "";
+			
 	$scope.doSubmitSurvey = function() {
 		
+		if($scope.issue == "" || $scope.issue == undefined){
+			$scope.issueTypeErr = "Issue Type is Manadatory";
+			$scope.serviceRatingErr = "";
+			$scope.serviceTimeRatingErr = "";
+			return false;
+		}
+		
+		if($scope.servicerating == "" || $scope.servicerating == undefined){
+			$scope.serviceRatingErr = "Service Rating is Manadatory";
+			$scope.issueTypeErr = "";
+			$scope.serviceTimeRatingErr = "";
+			return false;
+		}
+		
+		if($scope.servicetimetating == ""|| $scope.servicetimetating == undefined){
+			$scope.serviceTimeRatingErr = "Service Time Rating is Manadatory";
+			$scope.serviceRatingErr = "";
+			$scope.issueTypeErr = "";
+			return false;
+		}
+		
+		if(($scope.servicetimetating == 1) && ($scope.servicerating == 1) && ($scope.feedback == "" || $scope.feedback == undefined)){
+			$scope.feedbackErr = "Please Fill";
+			$scope.issueTypeErr = "";
+			$scope.serviceTimeRatingErr = "";
+			$scope.serviceRatingErr = "";
+			return false;
+		}
+
 		$('#loading_Overlay').show();
 		$('#loading_img').show();
 		
@@ -28,24 +61,6 @@ surveyModule.controller("surveyController", function($scope, $rootScope, $http, 
 			$('#loading_img').hide();
 			window.location = "#/thanks";
 		});
-		
-		/*$.ajax({
-			    url: '/survey/survey/addSurvey',
-			    type: 'POST',
-			    dataType: 'json',
-			    data: JSON.stringify(dataObj),
-			    contentType: "application/json; charset=utf-8",
-			    success: function(response) {
-			    	 $('#loading_Overlay').hide();
-			         $('#loading_img').hide();
-					 console.log(response);
-			        
-			    },
-			    error: function(){
-			    		$('#loading_Overlay').hide();
-			    		$('#loading_img').hide();
-			      }
-			});*/
 		
 	};
 	

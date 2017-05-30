@@ -19,8 +19,11 @@ public interface AdminDao {
 
 	public boolean validateSuperAdmin(String userName, Long roleId);
 
-	public List<SurveyData> fetchSurveyDataFilterBased(
-			SearchSurveyRequest searchSurveyRequest);
+	public List<SurveyData> fetchSurveyDataFilterBased(SearchSurveyRequest searchSurveyRequest);
 
 	public RoleMaster fetchRoles(String roleName);
+
+	public int fetchSurveyDataCount(SearchSurveyRequest searchSurveyRequest);
+
+	public List<SurveyData> fetchSurveyDataFilterBasedPaginated(SearchSurveyRequest searchSurveyRequest);
 }
