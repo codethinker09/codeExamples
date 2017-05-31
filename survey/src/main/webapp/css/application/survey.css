@@ -39,26 +39,6 @@ margin-top:15px;
 
 .borderDiv{border:1px solid black;padding: 5px 0px 5px 2px;margin-top:15px;}
 
-.boldText {
-	font-family: 'Oswald', sans-serif;
-	font-weight: 400;
-	font-size: 16px;
-	color: #212121;
-}
-
-
-.lightText {
-	font-family: 'Oswald', sans-serif;
-	font-weight: 400;
-	color: #666666;
-}
-
-.lightestText {
-	font-family: 'Oswald', sans-serif;
-	font-weight: 400;
-	color: #bababa;
-}
-
 .nopadding {
 	padding-left: 2%;
 	padding-right: 2%;
@@ -77,23 +57,8 @@ margin-top:15px;
 	float: auto;
 }
 
-body {font-family: 'Oswald-Light', sans-serif;-webkit-font-smoothing: subpixel-antialiased;-webkit-font-smoothing: antialiased;text-shadow: 0px 0px 1px rgba(0,0,0,0.2);-moz-osx-font-smoothing: grayscale;}
-input{font-family: 'Oswald-Light', sans-serif;-webkit-font-smoothing: subpixel-antialiased;-webkit-font-smoothing: antialiased;text-shadow: 0px 0px 1px rgba(0,0,0,0.2);-moz-osx-font-smoothing: grayscale;}
-
-@font-face {
-	font-family: 'Oswald';
-	src: url('/survey/css/fonts/Oswald.eot');
-	src: local('@'), url('/survey/css/fonts/Oswald.woff') format('woff'), url('/survey/css/fonts/Oswald.ttf') format('truetype'), url('/survey/css/fonts/Oswald.svg') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-@font-face {
-	font-family: 'Oswald-Light';
-	src: url('/survey/css/fonts/Oswald-Light.eot');
-	src: local('@'), url('/survey/css/fonts/Oswald-Light.woff') format('woff'), url('/survey/css/fonts/Oswald-Light.ttf') format('truetype'), url('/survey/css/fonts/Oswald-Light.svg') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
+body {-webkit-font-smoothing: subpixel-antialiased;-webkit-font-smoothing: antialiased;text-shadow: 0px 0px 1px rgba(0,0,0,0.2);-moz-osx-font-smoothing: grayscale;}
+input{-webkit-font-smoothing: subpixel-antialiased;-webkit-font-smoothing: antialiased;text-shadow: 0px 0px 1px rgba(0,0,0,0.2);-moz-osx-font-smoothing: grayscale;}
 
 .mybody {background-color:#F0F0F0; margin:0 auto;}
 
@@ -102,20 +67,6 @@ input{font-family: 'Oswald-Light', sans-serif;-webkit-font-smoothing: subpixel-a
 g text{font-family: 'Oswald', sans-serif !important; }
 
 .clear_both{clear:both;}
-
-.lightTextHeading {
-	font-family: 'Oswald', sans-serif;
-	font-weight: 400;
-	font-size: 18px;
-	color: #666666;
-}
-
-.boldTextHeading {
-	font-family: 'Oswald', sans-serif;
-	font-weight: 400;
-	font-size: 30px;
-	color: #212121;
-}
 
 .the-word-break {
 	overflow-wrap: break-word;
