@@ -4,6 +4,38 @@ var surveyModule = angular.module("surveyApp");
 
 surveyModule.controller("surveyController", function($scope, $rootScope, $http, $location) {
 	
+	$rootScope.isSuperAdmin = false;
+	$rootScope.username = "";
+	
+	$http({
+		method : "POST",
+		url : "/survey/survey/validateSuperAdmin",
+		headers : {'Content-Type' : 'application/json'}
+	}).then(function(response) {
+		var JSONObject = response.data;
+		
+		for (var i=0; i < JSONObject.length; i++){
+
+			var arrayItem = JSONObject[i];
+			
+		    var key = arrayItem.key;
+		    
+		    if(key == "username"){
+		    	$rootScope.username = arrayItem.value;
+		    }else{
+		    	if(key == "message"){
+			    	var itemVal = arrayItem.value;
+			    	if(itemVal == "Success"){
+			    		$rootScope.isSuperAdmin = true;
+			    	}else{
+			    		$rootScope.isSuperAdmin = false;
+			    	}
+			    }
+		    }
+		}
+			
+	});
+	
 	$scope.issueTypeErr = "";
 	$scope.serviceTimeRatingErr = "";
 	$scope.serviceRatingErr = "";
@@ -64,4 +96,8 @@ surveyModule.controller("surveyController", function($scope, $rootScope, $http, 
 		
 	};
 	
+$scope.downloadAdminStuff = function() {
+	window.location = "#/admin";
+}
+
 });

@@ -1,6 +1,6 @@
 package org.ankur.survey.pojo;
 
-public class Response {
+public class Response  {
 
 	private String key;
 

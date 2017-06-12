@@ -88,7 +88,7 @@ public class AdminServiceImpl implements AdminService {
 		List<SurveyData> surveyDataList = adminDaoImpl.fetchSurveyDataFilterBased(searchSurveyRequest);
 		if (!(CollectionUtils.isEmpty(surveyDataList))) {
 			for (SurveyData surveyData : surveyDataList) {
-				DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 				Date date = surveyData.getCreated();
 
 				SearchSurveyResponse searchSurveyResponse = new SearchSurveyResponse(surveyData.getUsername(),
@@ -108,7 +108,7 @@ public class AdminServiceImpl implements AdminService {
 		List<SurveyData> surveyDataList = adminDaoImpl.fetchSurveyDataFilterBasedPaginated(searchSurveyRequest);
 		if (!(CollectionUtils.isEmpty(surveyDataList))) {
 			for (SurveyData surveyData : surveyDataList) {
-				DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+				DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 				Date date = surveyData.getCreated();
 
 				SearchSurveyResponse searchSurveyResponse = new SearchSurveyResponse(surveyData.getUsername(),

@@ -6,14 +6,14 @@
 	</div>
 
 	<div class="welcomeDiv clear_both row-fluid">
-		<div class="col-md-10">
-			<span class="pull-right">Welcome {{username}}</span>&nbsp; &nbsp;
+		<div class="col-md-12">
+			<span class="pull-right"><b>Welcome {{username}}</b></span>&nbsp; &nbsp;
 		</div>
-		<div class="col-md-2"></div>
 	</div>
 
 	<div class="clear_both">
-		<span><h1 style="display: inline;">Builder Tools Customer Satisfaction Survey</h1></span>&nbsp; &nbsp;
+		<div class="col-md-10"><span><h1 style="display: inline;">Builder Tools Customer Satisfaction Survey</h1></span>&nbsp; &nbsp;</div>
+		<div class="col-md-2" ng-show="isSuperAdmin"><button class="btn btn-primary" ng-click="downloadAdminStuff()">Download Report</button></div>
 	</div>
 
 	<div class="clear_both row-fluid separator">

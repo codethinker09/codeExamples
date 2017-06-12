@@ -3,7 +3,41 @@
 var adminCtrl = angular.module("surveyApp");
 
 adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
-	$scope.isSuperAdmin = false;
+	
+	$rootScope.isSuperAdmin = false;
+	$rootScope.username = "";
+	$scope.authMsg = "";
+	
+	$http({
+		method : "POST",
+		url : "/survey/survey/validateSuperAdmin",
+		headers : {'Content-Type' : 'application/json'}
+	}).then(function(response) {
+		var JSONObject = response.data;
+		
+		
+		for (var i=0; i < JSONObject.length; i++){
+			var arrayItem = JSONObject[i];
+			
+			var key = arrayItem.key;
+		   		    
+		    if(key == "username"){
+		    	$rootScope.username = arrayItem.value;
+		    }else{
+		    	if(key == "message"){
+			    	var itemVal = arrayItem.value;
+			    	if(itemVal == "Success"){
+			    		$rootScope.isSuperAdmin = true;
+			    	}else{
+			    		$rootScope.isSuperAdmin = false;
+						$scope.authMsg = "Not Authorized to view this page";
+			    	}
+			    }
+		    }
+		}
+			
+	});
+	
 	$scope.pieDataSR;
 	$scope.pieDataSTR;
 	$scope.myChartObjectSR = {};
@@ -67,15 +101,20 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
       };
 	  
       // super admin
-	$scope.validateSuperAdmin = function(){
+	$scope.addAdmin = function(){
 		
 		$('#loading_Overlay').show();
 		$('#loading_img').show();
 		
+		var dataObj = {
+				"userName" : $scope.superAdmin,
+				"roleId":1
+		};
+		
 		$http({
 			method : "POST",
-			url : "/survey/survey/validateSuperAdmin",
-			data : $scope.superAdmin,
+			url : "/survey/survey/saveUser",
+			data : JSON.stringify(dataObj),
 			headers : {'Content-Type' : 'application/json'}
 		}).then(function(response) {
 			
@@ -83,18 +122,17 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 			$('#loading_img').hide();
 			
 			var JSONObject = response.data;
+			
 			var messageVal = JSONObject["value"];
 			
 			if(messageVal == "Success"){
-				// show here
-				$scope.isSuperAdmin = true;
+				$scope.message = "User "+$scope.superAdmin + " Added Successfully";
 			}else{
-				// error message
-				$scope.isSuperAdmin = false;
+				$scope.message = "Error adding in User "+$scope.superAdmin;
 			}
 			
 		});
-	}	
+	};	
 	
 		$scope.totalServerItems = 0;
 		$scope.pagingOptions = {
