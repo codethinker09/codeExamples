@@ -22,6 +22,16 @@ public class User implements Serializable {
 
 	private Long roleId;
 
+	private boolean active;
+
+	public boolean getActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 	public Long getId() {
 		return id;
 	}

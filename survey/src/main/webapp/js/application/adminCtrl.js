@@ -1,16 +1,60 @@
 'use strict';
 
 var adminCtrl = angular.module("surveyApp");
+var baseUrl = "/survey/survey/";
 
 adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 	
-	$rootScope.isSuperAdmin = false;
+	$rootScope.isSuperAdmin = true;
 	$rootScope.username = "";
 	$scope.authMsg = "";
 	
+	$scope.loadAdminUsers = function(){
+
+    	$('#loading_Overlay').show();
+		$('#loading_img').show();
+		
+		var dataObj = {
+				"page" : $scope.pagingOptions1.currentPage,
+				"pageSize" : $scope.pagingOptions1.pageSize,
+				"userName": $scope.userText,
+				"roleId":1
+		};		
+	
+		$http({
+			method : "POST",
+			url : baseUrl + "loadAdminUsers",
+			data : JSON.stringify(dataObj),
+			headers : {'Content-Type' : 'application/json'}
+		}).then(function(response) {
+			$scope.myUserData = response.data.userPojoList;
+			$scope.totalServerItems1 = response.data.count;		
+			$('#loading_Overlay').hide();
+			$('#loading_img').hide();		
+		}).catch(function (data) {
+			$('#loading_Overlay').hide();
+			$('#loading_img').hide();
+		});
+  
+	}
+	
+	$scope.totalServerItems = 0;
+		$scope.pagingOptions = {
+	          pageSizes: [10, 50, 100],
+	          pageSize: "10",
+	          currentPage: 1
+	    };
+
+		$scope.totalServerItems1 = 0;
+		$scope.pagingOptions1 = {
+	          pageSizes: [10, 50, 100],
+	          pageSize: "10",
+	          currentPage: 1
+	    };
+		
 	$http({
 		method : "POST",
-		url : "/survey/survey/validateSuperAdmin",
+		url : baseUrl + "validateSuperAdmin",
 		headers : {'Content-Type' : 'application/json'}
 	}).then(function(response) {
 		var JSONObject = response.data;
@@ -37,6 +81,10 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 		}
 			
 	});
+	
+	if($rootScope.isSuperAdmin){
+		$scope.loadAdminUsers();
+	}
 	
 	$scope.pieDataSR;
 	$scope.pieDataSTR;
@@ -113,7 +161,7 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 		
 		$http({
 			method : "POST",
-			url : "/survey/survey/saveUser",
+			url : baseUrl + "saveUser",
 			data : JSON.stringify(dataObj),
 			headers : {'Content-Type' : 'application/json'}
 		}).then(function(response) {
@@ -127,6 +175,11 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 			
 			if(messageVal == "Success"){
 				$scope.message = "User "+$scope.superAdmin + " Added Successfully";
+				$scope.loadAdminUsers();
+				
+			}else if(messageVal == "alreadyPresent"){
+				$scope.message = "User "+$scope.superAdmin + " is already there";
+				
 			}else{
 				$scope.message = "Error adding in User "+$scope.superAdmin;
 			}
@@ -134,13 +187,24 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 		});
 	};	
 	
-		$scope.totalServerItems = 0;
-		$scope.pagingOptions = {
-	          pageSizes: [10, 50, 100],
-	          pageSize: "10",
-	          currentPage: 1
-	      };	      
-	  	
+	$scope.deactivateUsers = function(){
+		
+		$('#loading_Overlay').show();
+		$('#loading_img').show();
+		
+		$http({
+			method : "POST",
+			url : baseUrl + "deleteAdminUser",
+			data : $scope.selectedRows,
+			headers : {'Content-Type' : 'application/json'}
+		}).then(function(response) {
+			$scope.loadAdminUsers();
+			$scope.gridOptions1.selectedItems.length = 0;
+			$('#loading_Overlay').hide();
+			$('#loading_img').hide();			
+		});
+	};
+		  	
 		$scope.$watch('pagingOptions', function (newVal, oldVal) {
 	          if ((newVal !== oldVal) && (newVal.currentPage !== oldVal.currentPage) || (newVal.pageSize !== oldVal.pageSize)) {
 	            	$('#loading_Overlay').show();
@@ -157,7 +221,7 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 				
 					$http({
 						method : "POST",
-						url : "/survey/survey/searchSurveyPieClick",
+						url : baseUrl + "searchSurveyPieClick",
 						data : JSON.stringify(dataObj),
 						headers : {'Content-Type' : 'application/json'}
 					}).then(function(response) {
@@ -172,6 +236,14 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 	          }
 	      }, true);
 		  
+		
+		$scope.$watch('pagingOptions1', function (newVal, oldVal) {
+	          if ((newVal !== oldVal) && (newVal.currentPage !== oldVal.currentPage) || (newVal.pageSize !== oldVal.pageSize)) {
+	        	  $scope.loadAdminUsers();
+	          }
+	      }, true);
+		  
+		
 		// search
 		
 		$scope.searchSurvey = function(){
@@ -190,7 +262,7 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 		
 			$http({
 				method : "POST",
-				url : "/survey/survey/searchSurvey",
+				url : baseUrl + "searchSurvey",
 				data : JSON.stringify(dataObj),
 				headers : {'Content-Type' : 'application/json'}
 			}).then(function(response) {
@@ -268,7 +340,7 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 		
 		$http({
 			method : "POST",
-			url : "/survey/survey/downloadCSV",
+			url : baseUrl + "downloadCSV",
 			data : JSON.stringify(dataObj),
 			headers : {'Content-Type' : 'application/json'}
 		}).then(function(response) {
@@ -314,7 +386,7 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 		
 			$http({
 				method : "POST",
-				url : "/survey/survey/searchSurveyPieClick",
+				url : baseUrl + "searchSurveyPieClick",
 				data : JSON.stringify(dataObj),
 				headers : {'Content-Type' : 'application/json'}
 			}).then(function(response) {
@@ -349,7 +421,7 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 	
 			$http({
 				method : "POST",
-				url : "/survey/survey/searchSurveyPieClick",
+				url : baseUrl + "searchSurveyPieClick",
 				data : JSON.stringify(dataObj),
 				headers : {'Content-Type' : 'application/json'}
 			}).then(function(response) {		
@@ -380,6 +452,24 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 				{field:'optional', displayName:'Optional issue link',width: '210px'},
 				{field:'feedback', displayName:'Feedback',width: '100px'},
 				{field:'createdDate', displayName:'Date',width: '200px'}
+			]
+		};
+		
+		$scope.selectedRows=[];
+		
+		$scope.gridOptions1 = { 
+		data: 'myUserData',
+		enablePaging: true,
+		totalServerItems:'totalServerItems1',
+		pagingOptions: $scope.pagingOptions1,
+		showFooter: true,
+		multiSelect: true,
+		enableHighlighting: true,
+		enableRowSelection: true,
+		selectedItems:$scope.selectedRows,
+		columnDefs: [
+				{field: 'userName', displayName: 'User Name',width: '305px'},
+				{field:'roleName', displayName:'Role',width: '160px'}
 			]
 		};
 		

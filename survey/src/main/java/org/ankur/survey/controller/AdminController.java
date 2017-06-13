@@ -7,11 +7,14 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
+import org.ankur.survey.pojo.AdminUserSearchRequest;
 import org.ankur.survey.pojo.Response;
+import org.ankur.survey.pojo.SearchUserResponseWrapper;
 import org.ankur.survey.pojo.UserPojo;
 import org.ankur.survey.service.AdminService;
 import org.ankur.survey.service.ApplicationIntializer;
 import org.ankur.survey.utils.Constants;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,13 +94,62 @@ public class AdminController {
 				userPojo.setRoleId(id);
 			}
 
-			adminServiceImpl.saveUserDetails(userPojo);
-			response = new Response("message", "Success");
+			boolean isPresent = adminServiceImpl.loadUsersByRoleName(
+					userPojo.getUserName(), userPojo.getRoleId());
+
+			if (!isPresent) {
+				userPojo.setActive(true);
+				adminServiceImpl.saveUserDetails(userPojo);
+				response = new Response("message", "Success");
+			} else {
+				response = new Response("message", "alreadyPresent");
+			}
+
 		} catch (Exception e) {
 			response = new Response("message", "Error");
 		}
 
 		return response;
+	}
+
+	@RequestMapping(value = "/loadAdminUsers", method = RequestMethod.POST)
+	public SearchUserResponseWrapper loadAdminUsers(
+			@RequestBody AdminUserSearchRequest adminUserSearchRequest) {
+
+		SearchUserResponseWrapper searchUserResponseWrapper = new SearchUserResponseWrapper();
+		Long roleId = 0L;
+
+		if (null != applicationIntializer.roleNameIdMap
+				.get(Constants.ADMIN_ROLE)) {
+			roleId = applicationIntializer.roleNameIdMap
+					.get(Constants.ADMIN_ROLE);
+		} else {
+			roleId = adminServiceImpl.fetchRoles(Constants.ADMIN_ROLE).getId();
+		}
+
+		adminUserSearchRequest.setRoleId(roleId);
+
+		List<UserPojo> userPojoList = adminServiceImpl
+				.loadUsersByRole(adminUserSearchRequest);
+		searchUserResponseWrapper.setUserPojoList(userPojoList);
+
+		int totalCount = adminServiceImpl
+				.fetchUserDataCount(adminUserSearchRequest);
+		searchUserResponseWrapper.setCount(totalCount);
+
+		return searchUserResponseWrapper;
+
+	}
+
+	@RequestMapping(value = "/deleteAdminUser", method = RequestMethod.POST)
+	public void deleteAdminUser(@RequestBody List<UserPojo> userPojos) {
+		if (!CollectionUtils.isEmpty(userPojos)) {
+			List<Long> ids = new ArrayList<Long>();
+			for (UserPojo pojo : userPojos) {
+				ids.add(pojo.getId());
+			}
+			adminServiceImpl.deleteUser(ids);
+		}
 	}
 
 	private static String getUsername(String email) {

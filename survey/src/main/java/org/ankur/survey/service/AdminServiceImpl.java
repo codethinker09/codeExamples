@@ -13,11 +13,13 @@ import org.ankur.survey.dao.AdminDao;
 import org.ankur.survey.entity.RoleMaster;
 import org.ankur.survey.entity.SurveyData;
 import org.ankur.survey.entity.User;
+import org.ankur.survey.pojo.AdminUserSearchRequest;
 import org.ankur.survey.pojo.RoleMasterPojo;
 import org.ankur.survey.pojo.SearchSurveyRequest;
 import org.ankur.survey.pojo.SearchSurveyResponse;
 import org.ankur.survey.pojo.SurveyPojo;
 import org.ankur.survey.pojo.UserPojo;
+import org.ankur.survey.service.AdminService;
 import org.springframework.util.CollectionUtils;
 
 @Named(value = "adminServiceImpl")
@@ -27,9 +29,31 @@ public class AdminServiceImpl implements AdminService {
 	@Named(value = "adminDaoImpl")
 	private AdminDao adminDaoImpl;
 
+	@Inject
+	@Named(value = "applicationIntializer")
+	private ApplicationIntializer applicationIntializer;
+
 	@Override
-	public List<User> loadUsersByRole(String roleName) {
-		return adminDaoImpl.loadUsersByRole(roleName);
+	public List<UserPojo> loadUsersByRole(
+			AdminUserSearchRequest adminUserSearchRequest) {
+		List<UserPojo> userPojoList = new ArrayList<UserPojo>();
+		List<User> userList = adminDaoImpl
+				.loadUsersByRole(adminUserSearchRequest);
+
+		if (!CollectionUtils.isEmpty(userList)) {
+			for (User user : userList) {
+				UserPojo userPojo = new UserPojo();
+				userPojo.setActive(user.getActive());
+				userPojo.setRoleId(user.getRoleId());
+				userPojo.setUserName(user.getUserName());
+				userPojo.setId(user.getId());
+				userPojo.setRoleName(applicationIntializer.roleIdNameMap
+						.get(user.getRoleId()));
+
+				userPojoList.add(userPojo);
+			}
+		}
+		return userPojoList;
 	}
 
 	@Override
@@ -51,6 +75,7 @@ public class AdminServiceImpl implements AdminService {
 		User user = new User();
 		user.setRoleId(userPojo.getRoleId());
 		user.setUserName(userPojo.getUserName());
+		user.setActive(userPojo.getActive());
 
 		adminDaoImpl.saveUserDetails(user);
 
@@ -78,22 +103,28 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public boolean validateSuperAdmin(UserPojo userPojo) {
-		return adminDaoImpl.validateSuperAdmin(userPojo.getUserName(), userPojo.getRoleId());
+		return adminDaoImpl.validateSuperAdmin(userPojo.getUserName(),
+				userPojo.getRoleId());
 	}
 
 	@Override
-	public List<SearchSurveyResponse> fetchSurveyDataFilterBased(SearchSurveyRequest searchSurveyRequest) {
+	public List<SearchSurveyResponse> fetchSurveyDataFilterBased(
+			SearchSurveyRequest searchSurveyRequest) {
 		List<SearchSurveyResponse> searchSurveyResponses = new ArrayList<SearchSurveyResponse>();
 
-		List<SurveyData> surveyDataList = adminDaoImpl.fetchSurveyDataFilterBased(searchSurveyRequest);
+		List<SurveyData> surveyDataList = adminDaoImpl
+				.fetchSurveyDataFilterBased(searchSurveyRequest);
 		if (!(CollectionUtils.isEmpty(surveyDataList))) {
 			for (SurveyData surveyData : surveyDataList) {
 				DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 				Date date = surveyData.getCreated();
 
-				SearchSurveyResponse searchSurveyResponse = new SearchSurveyResponse(surveyData.getUsername(),
-						surveyData.getIssue(), surveyData.getServicerating(), surveyData.getServicetimetating(),
-						surveyData.getFeedback(), surveyData.getOptional(), df.format(date));
+				SearchSurveyResponse searchSurveyResponse = new SearchSurveyResponse(
+						surveyData.getUsername(), surveyData.getIssue(),
+						surveyData.getServicerating(),
+						surveyData.getServicetimetating(),
+						surveyData.getFeedback(), surveyData.getOptional(),
+						df.format(date));
 
 				searchSurveyResponses.add(searchSurveyResponse);
 			}
@@ -102,18 +133,23 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<SearchSurveyResponse> fetchSurveyDataFilterBasedPaginated(SearchSurveyRequest searchSurveyRequest) {
+	public List<SearchSurveyResponse> fetchSurveyDataFilterBasedPaginated(
+			SearchSurveyRequest searchSurveyRequest) {
 		List<SearchSurveyResponse> searchSurveyResponses = new ArrayList<SearchSurveyResponse>();
 
-		List<SurveyData> surveyDataList = adminDaoImpl.fetchSurveyDataFilterBasedPaginated(searchSurveyRequest);
+		List<SurveyData> surveyDataList = adminDaoImpl
+				.fetchSurveyDataFilterBasedPaginated(searchSurveyRequest);
 		if (!(CollectionUtils.isEmpty(surveyDataList))) {
 			for (SurveyData surveyData : surveyDataList) {
 				DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 				Date date = surveyData.getCreated();
 
-				SearchSurveyResponse searchSurveyResponse = new SearchSurveyResponse(surveyData.getUsername(),
-						surveyData.getIssue(), surveyData.getServicerating(), surveyData.getServicetimetating(),
-						surveyData.getFeedback(), surveyData.getOptional(), df.format(date));
+				SearchSurveyResponse searchSurveyResponse = new SearchSurveyResponse(
+						surveyData.getUsername(), surveyData.getIssue(),
+						surveyData.getServicerating(),
+						surveyData.getServicetimetating(),
+						surveyData.getFeedback(), surveyData.getOptional(),
+						df.format(date));
 
 				searchSurveyResponses.add(searchSurveyResponse);
 			}
@@ -135,5 +171,24 @@ public class AdminServiceImpl implements AdminService {
 		roleMasterPojo.setRoleName(roleMaster.getRoleName());
 
 		return roleMasterPojo;
+	}
+
+	@Override
+	public boolean loadUsersByRoleName(String userName, Long roleId) {
+		int count = adminDaoImpl.loadUsersByRoleName(userName, roleId);
+		if (count == 0) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public void deleteUser(List<Long> ids) {
+		adminDaoImpl.deleteUser(ids);
+	}
+
+	@Override
+	public int fetchUserDataCount(AdminUserSearchRequest adminUserSearchRequest) {
+		return adminDaoImpl.fetchUserDataCount(adminUserSearchRequest);
 	}
 }

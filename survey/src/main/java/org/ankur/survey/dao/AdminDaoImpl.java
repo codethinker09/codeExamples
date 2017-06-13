@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import org.ankur.survey.entity.RoleMaster;
 import org.ankur.survey.entity.SurveyData;
 import org.ankur.survey.entity.User;
+import org.ankur.survey.pojo.AdminUserSearchRequest;
 import org.ankur.survey.pojo.SearchSurveyRequest;
 import org.ankur.survey.utils.DateHelper;
 import org.springframework.util.CollectionUtils;
@@ -20,8 +21,36 @@ import org.springframework.util.StringUtils;
 public class AdminDaoImpl extends BaseDaoImpl implements AdminDao {
 
 	@Override
-	public List<User> loadUsersByRole(String roleName) {
-		return null;
+	public List<User> loadUsersByRole(
+			AdminUserSearchRequest adminUserSearchRequest) {
+
+		String queryStr = "SELECT u FROM User u where u.roleId = "
+				+ adminUserSearchRequest.getRoleId() + " AND u.active = true ";
+
+		if (!StringUtils.isEmpty(adminUserSearchRequest.getUserName())) {
+			queryStr = queryStr + " AND u.userName like '%"
+					+ adminUserSearchRequest.getUserName() + "%' ";
+		}
+
+		// order by
+		queryStr = queryStr + " order by u.userName asc";
+
+		Query query = em.createQuery(queryStr);
+
+		int firstResult = 0;
+		if (adminUserSearchRequest.getPage() == 1) {
+			firstResult = 0;
+		} else {
+			firstResult = (adminUserSearchRequest.getPage() * adminUserSearchRequest
+					.getPageSize()) - adminUserSearchRequest.getPageSize();
+		}
+
+		query.setFirstResult(firstResult);
+		query.setMaxResults(adminUserSearchRequest.getPageSize());
+
+		List<User> userDataList = query.getResultList();
+
+		return userDataList;
 	}
 
 	@Override
@@ -44,7 +73,9 @@ public class AdminDaoImpl extends BaseDaoImpl implements AdminDao {
 	@Override
 	public boolean validateSuperAdmin(String userName, Long roleId) {
 		Query query = em
-				.createQuery("SELECT u FROM User u where u.userName ='" + userName + "'" + " AND u.roleId = roleId");
+				.createQuery("SELECT u FROM User u where u.userName ='"
+						+ userName + "'"
+						+ " AND u.roleId = roleId AND u.active = true");
 
 		List<User> userList = query.getResultList();
 
@@ -55,8 +86,10 @@ public class AdminDaoImpl extends BaseDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public List<SurveyData> fetchSurveyDataFilterBased(SearchSurveyRequest searchSurveyRequest) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+	public List<SurveyData> fetchSurveyDataFilterBased(
+			SearchSurveyRequest searchSurveyRequest) {
+		SimpleDateFormat format = new SimpleDateFormat(
+				"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 		Date frmDate = null;
 		Date enDate = null;
 		try {
@@ -69,15 +102,17 @@ public class AdminDaoImpl extends BaseDaoImpl implements AdminDao {
 		String frmDateTemp = DateHelper.getFormattedFromDateTime(frmDate);
 		String endDateTemp = DateHelper.getFormattedToDateTime(enDate);
 
-		String queryStr = "SELECT sd FROM SurveyData sd where sd.created BETWEEN '" + frmDateTemp + "' AND '"
-				+ endDateTemp + "'";
+		String queryStr = "SELECT sd FROM SurveyData sd where sd.created BETWEEN '"
+				+ frmDateTemp + "' AND '" + endDateTemp + "'";
 
 		if (!(StringUtils.isEmpty(searchSurveyRequest.getServicerating()))) {
-			queryStr = queryStr + " AND sd.servicerating = '" + searchSurveyRequest.getServicerating() + "'";
+			queryStr = queryStr + " AND sd.servicerating = '"
+					+ searchSurveyRequest.getServicerating() + "'";
 		}
 
 		if (!(StringUtils.isEmpty(searchSurveyRequest.getServicetimetating()))) {
-			queryStr = queryStr + " AND sd.servicetimetating = '" + searchSurveyRequest.getServicetimetating() + "'";
+			queryStr = queryStr + " AND sd.servicetimetating = '"
+					+ searchSurveyRequest.getServicetimetating() + "'";
 		}
 		// order by
 		queryStr = queryStr + " order by sd.created desc";
@@ -89,8 +124,10 @@ public class AdminDaoImpl extends BaseDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public List<SurveyData> fetchSurveyDataFilterBasedPaginated(SearchSurveyRequest searchSurveyRequest) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+	public List<SurveyData> fetchSurveyDataFilterBasedPaginated(
+			SearchSurveyRequest searchSurveyRequest) {
+		SimpleDateFormat format = new SimpleDateFormat(
+				"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 		Date frmDate = null;
 		Date enDate = null;
 		try {
@@ -103,15 +140,17 @@ public class AdminDaoImpl extends BaseDaoImpl implements AdminDao {
 		String frmDateTemp = DateHelper.getFormattedFromDateTime(frmDate);
 		String endDateTemp = DateHelper.getFormattedToDateTime(enDate);
 
-		String queryStr = "SELECT sd FROM SurveyData sd where sd.created BETWEEN '" + frmDateTemp + "' AND '"
-				+ endDateTemp + "'";
+		String queryStr = "SELECT sd FROM SurveyData sd where sd.created BETWEEN '"
+				+ frmDateTemp + "' AND '" + endDateTemp + "'";
 
 		if (!(StringUtils.isEmpty(searchSurveyRequest.getServicerating()))) {
-			queryStr = queryStr + " AND sd.servicerating = '" + searchSurveyRequest.getServicerating() + "'";
+			queryStr = queryStr + " AND sd.servicerating = '"
+					+ searchSurveyRequest.getServicerating() + "'";
 		}
 
 		if (!(StringUtils.isEmpty(searchSurveyRequest.getServicetimetating()))) {
-			queryStr = queryStr + " AND sd.servicetimetating = '" + searchSurveyRequest.getServicetimetating() + "'";
+			queryStr = queryStr + " AND sd.servicetimetating = '"
+					+ searchSurveyRequest.getServicetimetating() + "'";
 		}
 		// order by
 		queryStr = queryStr + " order by sd.created desc";
@@ -122,8 +161,8 @@ public class AdminDaoImpl extends BaseDaoImpl implements AdminDao {
 		if (searchSurveyRequest.getPage() == 1) {
 			firstResult = 0;
 		} else {
-			firstResult = (searchSurveyRequest.getPage() * searchSurveyRequest.getPageSize())
-					- searchSurveyRequest.getPageSize();
+			firstResult = (searchSurveyRequest.getPage() * searchSurveyRequest
+					.getPageSize()) - searchSurveyRequest.getPageSize();
 		}
 
 		query.setFirstResult(firstResult);
@@ -135,7 +174,8 @@ public class AdminDaoImpl extends BaseDaoImpl implements AdminDao {
 
 	@Override
 	public int fetchSurveyDataCount(SearchSurveyRequest searchSurveyRequest) {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+		SimpleDateFormat format = new SimpleDateFormat(
+				"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 		Date frmDate = null;
 		Date enDate = null;
 		try {
@@ -148,18 +188,18 @@ public class AdminDaoImpl extends BaseDaoImpl implements AdminDao {
 		String frmDateTemp = DateHelper.getFormattedFromDateTime(frmDate);
 		String endDateTemp = DateHelper.getFormattedToDateTime(enDate);
 
-		String queryStr = "SELECT count(sd) FROM SurveyData sd where sd.created BETWEEN '" + frmDateTemp + "' AND '"
-				+ endDateTemp + "'";
+		String queryStr = "SELECT count(sd) FROM SurveyData sd where sd.created BETWEEN '"
+				+ frmDateTemp + "' AND '" + endDateTemp + "'";
 
 		if (!(StringUtils.isEmpty(searchSurveyRequest.getServicerating()))) {
-			queryStr = queryStr + " AND sd.servicerating = '" + searchSurveyRequest.getServicerating() + "'";
+			queryStr = queryStr + " AND sd.servicerating = '"
+					+ searchSurveyRequest.getServicerating() + "'";
 		}
 
 		if (!(StringUtils.isEmpty(searchSurveyRequest.getServicetimetating()))) {
-			queryStr = queryStr + " AND sd.servicetimetating = '" + searchSurveyRequest.getServicetimetating() + "'";
+			queryStr = queryStr + " AND sd.servicetimetating = '"
+					+ searchSurveyRequest.getServicetimetating() + "'";
 		}
-		// order by
-		queryStr = queryStr + " order by sd.created desc";
 
 		Query query = em.createQuery(queryStr);
 
@@ -169,7 +209,42 @@ public class AdminDaoImpl extends BaseDaoImpl implements AdminDao {
 
 	@Override
 	public RoleMaster fetchRoles(String roleName) {
-		Query query = em.createQuery("SELECT rm FROM RoleMaster rm where rm.roleName = '" + roleName + "'");
+		Query query = em
+				.createQuery("SELECT rm FROM RoleMaster rm where rm.roleName = '"
+						+ roleName + "'");
 		return (RoleMaster) query.getSingleResult();
+	}
+
+	@Override
+	public int loadUsersByRoleName(String userName, Long roleId) {
+		Query query = em
+				.createQuery("SELECT u FROM User u where u.userName = '"
+						+ userName + "' AND u.roleId = " + roleId
+						+ "AND u.active = true");
+		return query.getResultList().size();
+	}
+
+	@Override
+	public void deleteUser(List<Long> ids) {
+		Query query = em
+				.createQuery("UPDATE User u set u.active = false where u.id IN (:ids)");
+		query.setParameter("ids", ids);
+		query.executeUpdate();
+
+	}
+
+	@Override
+	public int fetchUserDataCount(AdminUserSearchRequest adminUserSearchRequest) {
+		String queryStr = "SELECT count(u) FROM User u where u.roleId = "
+				+ adminUserSearchRequest.getRoleId() + " AND u.active = true ";
+
+		if (!StringUtils.isEmpty(adminUserSearchRequest.getUserName())) {
+			queryStr = queryStr + " AND u.userName like '%"
+					+ adminUserSearchRequest.getUserName() + "%' ";
+		}
+
+		Query query = em.createQuery(queryStr);
+		int count = ((Long) query.getSingleResult()).intValue();
+		return count;
 	}
 }
