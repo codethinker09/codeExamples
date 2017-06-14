@@ -444,6 +444,9 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 		totalServerItems:'totalServerItems',
 		pagingOptions: $scope.pagingOptions,
 		showFooter: true,
+		showFilter : true,
+	    enableColumnResize : true,
+	    showSelectionCheckbox: false,
 		columnDefs: [
 				{field: 'user', displayName: 'Person Name',width: '140px'},
 				{field:'issueType', displayName:'Service Name',width: '120px'},
@@ -467,6 +470,9 @@ adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 		enableHighlighting: true,
 		enableRowSelection: true,
 		selectedItems:$scope.selectedRows,
+		showFilter : true,
+	    enableColumnResize : true,
+	    showSelectionCheckbox: true,
 		columnDefs: [
 				{field: 'userName', displayName: 'User Name',width: '305px'},
 				{field:'roleName', displayName:'Role',width: '160px'}
