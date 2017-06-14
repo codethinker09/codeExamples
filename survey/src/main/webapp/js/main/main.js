@@ -1,5 +1,7 @@
 'use strict';
 
+var baseUrl = "/survey/survey/";
+
 (function() {
 
 	var app = angular.module("surveyApp",

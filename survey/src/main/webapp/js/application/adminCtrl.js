@@ -1,7 +1,6 @@
 'use strict';
 
 var adminCtrl = angular.module("surveyApp");
-var baseUrl = "/survey/survey/";
 
 adminCtrl.controller("adminController", function($scope, $rootScope, $http) {
 	
