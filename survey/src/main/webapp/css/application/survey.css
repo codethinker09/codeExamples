@@ -116,3 +116,35 @@ g text {
     position: relative;
     z-index: 1;
 }
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #9ad5e9;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: #57bee2;
+}
+
+.active {
+    background-color: #1b52a1;
+}
+li {
+    border-right: 1px solid #bbb;
+}

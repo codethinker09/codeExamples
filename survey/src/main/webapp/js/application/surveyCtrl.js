@@ -9,7 +9,7 @@ surveyModule.controller("surveyController", function($scope, $rootScope, $http, 
 	
 	$http({
 		method : "POST",
-		url : baseUrl + "validateSuperAdmin",
+		url : "/survey/survey/validateSuperAdmin",
 		headers : {'Content-Type' : 'application/json'}
 	}).then(function(response) {
 		var JSONObject = response.data;
@@ -85,7 +85,7 @@ surveyModule.controller("surveyController", function($scope, $rootScope, $http, 
 		
 		$http({
 			method : "POST",
-			url : baseUrl + "addSurvey",
+			url : "/survey/survey/addSurvey",
 			data : JSON.stringify(dataObj),
 			headers : {'Content-Type' : 'application/json'}
 		}).then(function(response) {

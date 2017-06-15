@@ -17,11 +17,15 @@ var baseUrl = "/survey/survey/";
 			when('/thanks', {
 				templateUrl:'htm/application/thanks.htm?v=1.0',
 				controller:'thanksController'
-					  }).
+			}).
 			when('/admin', {
 				templateUrl:'htm/application/admin.htm?v=1.0',
 				controller:'adminController'
-								  }).		  
+			}).	
+			when('/userManagement', {
+				templateUrl:'htm/application/userManagement.htm?v=1.0',
+				controller:'userManagementController'
+			}).			
 			otherwise( {
 			  redirectTo : '/survey',
 			  });

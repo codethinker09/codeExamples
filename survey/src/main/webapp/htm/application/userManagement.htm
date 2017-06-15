@@ -1,0 +1,41 @@
+<div class="container-fluid" ng-controller="userManagementController">
+
+<div ng-show="!isSuperAdmin"><span class="pull-left">{{authMsg}}</span></div>
+
+<div ng-show="isSuperAdmin">
+
+<div class="row-fluid">
+	 <ul>
+	  <li ng-class="{ active: isActive('/admin')}"><a href="#/admin">Download Reports</a></li>
+	  <li ng-class="{ active: isActive('/userManagement')}"><a href="#/userManagement">User management</a></li>
+	</ul>
+</div>
+
+	<div id="loading_Overlay"></div>
+		<div id="loading_img">
+			<img src="/survey/images/loading.gif" />
+		</div>
+		<div class="row-fluid marginDiv">
+			<div class="row-fluid col-md-6">
+				<label class="lable-align">Add New Admin User&nbsp;&nbsp;</label> 
+				<input type="text" name="optional" ng-model="superAdmin" value="" />
+				<button class="btn btn-primary" ng-click="addAdmin()">Add</button>			
+			</div>
+			<div class="col-md-6"><span>{{message}}</span></div>
+		</div>
+
+		<br/><br/>
+	
+		<div class="row-fluid marginDiv">		
+				<div class="col-md-5">
+					<div class="row-fluid pull-right">
+						<input type="text" name="userText" ng-model="userText" value="" />
+						<button class="btn btn-primary" ng-click="loadAdminUsers()">Search user</button>	
+						<button class="btn btn-primary" ng-click="deactivateUsers()">De-Activate</button>
+					</div>
+					<div class="row-fluid gridStyle" ng-grid="gridOptions1"></div>
+				</div>
+				<div class="col-md-7"></div>
+		</div>
+	</div>
+</div>
