@@ -29,9 +29,15 @@ height:40px;
 margin-top:15px;
 }
 
+.marginDivChart{margin-top:-35px;}
+
 .marginDiv{margin-top:15px;}
 
-.marginDivPie{margin-top:25px;margin-bottom:65px;}
+.marginGrid{margin-top:240px;}
+
+.marginGridUser{margin-top:50px;}
+
+.marginDivPie{margin-top:15px;margin-bottom:65px;}
 
 .container{float: left !important; background: #fff; width: 100%;}
 
@@ -147,4 +153,11 @@ li a:hover {
 }
 li {
     border-right: 1px solid #bbb;
+}
+.ngTopPanel {
+    background-color: #eaeaea;
+    border-bottom: 1px solid #d4d4d4;
+    margin-top: 0px !important;
+    position: relative;
+    z-index: 1;
 }

@@ -165,7 +165,7 @@ adminCtrl.controller("userManagementController", function($scope, $rootScope, $h
 	    showSelectionCheckbox: true,
 		columnDefs: [
 				{field: 'userName', displayName: 'User Name',width: '305px'},
-				{field:'roleName', displayName:'Role',width: '160px'}
+				{field:'roleName', displayName:'Role',width: '302px'}
 			]
 		};
 		
