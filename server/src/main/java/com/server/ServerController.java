@@ -13,7 +13,7 @@ public class ServerController {
 	public Map<String, String> sample(@PathVariable("id") Long id) {
 		Map<String, String> result = new HashMap<String, String>();
 		result.put("xml", fetchXML(id));
-		result.put("message", "Sending Response");
+		result.put("name", id + "_xml");
 		result.put("id", id.toString());
 		return result;
 	}
