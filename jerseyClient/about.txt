@@ -1,0 +1,12 @@
+Client - Server/Client Jersey
+
+	Build - mvn clean install -DskipTests
+	Deploy in Tomcat
+	URL - http://localhost:8888/jerseyClient/validate/3
+	
+	value = 1 - valid xml
+	value = 2 - valid xml
+	value = 3 - invalid xml
+	
+In Tomcat console you can see the error for invalid xml.
+Sample xsd is there in resources fodler to validate.

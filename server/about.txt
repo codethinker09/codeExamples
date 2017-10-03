@@ -3,3 +3,9 @@ Server - Spring Boot Rest
 	Build - mvn clean install -DskipTests
 	Run with debug - java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=9000,suspend=n -Dserver.port=9090 -jar target/server-0.0.1-SNAPSHOT.jar
 	URL - http://localhost:9090/fetch/1
+	
+Webservice is running on http://localhost:9090/fetch/1
+
+	value = 1 - valid xml
+	value = 2 - valid xml
+	value = 3 - invalid xml
