@@ -74,22 +74,8 @@ public class RestClient {
 
 				ObjectMapper mapper = new ObjectMapper();
 				mapData = mapper.readValue(output, HashMap.class);
-				
-				String responseXML = mapData.get("xml");
 
 				// parse XML here to fetch xsd name
-
-				
-				boolean validXml = validateXMLSchema(
-						Intializer.getPropertyValue(Helper.getTagValue(responseXML, Constants.XSD_NAME_PATH_TAG)),
-						responseXML);
-
-				System.out.println("===============================================================================");
-				System.out.println("\n");
-				System.out.println("XML Received is : " + responseXML);
-				System.out.println("Xml is Valid ?" + validXml);
-				System.out.println("\n");
-				System.out.println("===============================================================================");
 				writeToFile(bw, mapData, "");
 			}
 		} catch (Exception e) {
@@ -113,8 +99,9 @@ public class RestClient {
 			if (errorMessage != "") {
 				bw.newLine();
 				bw.write("Error Received ===>>>");
+				bw.newLine();
 				bw.write("=====================================================================================");
-				bw.write("errorMessage");
+				bw.write(errorMessage);
 				bw.write("=====================================================================================");
 			}
 			bw.close();
