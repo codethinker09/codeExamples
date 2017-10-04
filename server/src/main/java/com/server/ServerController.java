@@ -22,15 +22,15 @@ public class ServerController {
 		String content = "";
 
 		if (id == 1L) {
-			String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><empns:empRequest xmlns:empns=\"Employee\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Employee.xsd\"><empns:id>5</empns:id><empns:xsdNamePath>Employee.xsd</empns:xsdNamePath></empns:empRequest>";
+			String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><empns:empRequest xmlns:empns=\"Employee\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Employee.xsd\"><empns:id>5</empns:id><empns:formid>1</empns:formid></empns:empRequest>";
 			content = xml;
 
 		} else if (id == 2L) {
-			String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><empns:empResponse xmlns:empns=\"Employee\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"Employee.xsd\"><empns:id>1</empns:id><empns:role>Developer</empns:role><empns:fullName>Ankur Singhal</empns:fullName><empns:xsdNamePath>Employee.xsd</empns:xsdNamePath></empns:empResponse>";
+			String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><empns:empResponse xmlns:empns=\"Employee\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"Employee.xsd\"><empns:id>1</empns:id><empns:role>Developer</empns:role><empns:fullName>Ankur Singhal</empns:fullName><empns:formid>1</empns:formid></empns:empResponse>";
 			content = xml;
 
 		} else if (id == 3L) {
-			String xml = "<?xml version=\"1.0\"?><Employee>	<name>Pankaj</name>	<age>29</age>	<role>Java Developer</role>	<gender>Male</gender><empns:xsdNamePath>Employee.xsd</empns:xsdNamePath></Employee>";
+			String xml = "<?xml version=\"1.0\"?><Employee>	<name>Pankaj</name>	<age>29</age>	<role>Java Developer</role>	<gender>Male</gender><empns:formid>1</empns:formid></Employee>";
 			content = xml;
 		}
 
