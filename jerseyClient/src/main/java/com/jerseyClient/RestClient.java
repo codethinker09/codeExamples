@@ -6,6 +6,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -16,7 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -33,6 +33,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.xml.sax.SAXException;
 
 @Path("/validate")
 public class RestClient {
@@ -42,94 +43,96 @@ public class RestClient {
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response getValidResp() {
 
+		// Intializers
 		List<Long> ids = parseIdFile();
-
 		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource("/invalid_xml.txt").getFile());
+		FileWriter fw = null;
+		BufferedWriter bw = null;
 
-		File file = new File(classLoader.getResource("/invalid_xml.txt")
-				.getFile());
+		Map<String, String> mapData = null;
 
 		try {
 			for (Long id : ids) {
 
-				FileWriter fw = new FileWriter(file,true);
-				BufferedWriter bw = new BufferedWriter(fw);
+				mapData = new HashMap<String, String>();
+
+				fw = new FileWriter(file, true);
+				bw = new BufferedWriter(fw);
 
 				Client client = ClientBuilder.newClient();
-				WebTarget webTarget = client
-						.target("http://localhost:9090/fetch/" + id);
+				WebTarget webTarget = client.target(Intializer.getPropertyValue(Constants.SERVICE_URL) + id);
 
-				Invocation.Builder invocationBuilder = webTarget
-						.request(MediaType.APPLICATION_JSON);
+				Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 				Response response = invocationBuilder.get();
 
 				if (response.getStatus() != 200) {
-					throw new RuntimeException("Failed : HTTP error code : "
-							+ response.getStatus());
+					throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
 				}
 
 				String output = response.readEntity(String.class);
 
-				Map<String, String> mapData = null;
 				ObjectMapper mapper = new ObjectMapper();
-
 				mapData = mapper.readValue(output, HashMap.class);
-				boolean validXml = validateXMLSchema(
-						"https://raw.githubusercontent.com/codethinker09/codeExamples/master/jerseyClient/src/main/resources/Employee.xsd",
-						mapData.get("xml"));
+				
+				String responseXML = mapData.get("xml");
 
-				System.out
-						.println("===============================================================================");
+				// parse XML here to fetch xsd name
+
+				
+				boolean validXml = validateXMLSchema(
+						Intializer.getPropertyValue(Helper.getTagValue(responseXML, Constants.XSD_NAME_PATH_TAG)),
+						responseXML);
+
+				System.out.println("===============================================================================");
 				System.out.println("\n");
-				System.out.println("XML Received is : " + mapData.get("xml"));
+				System.out.println("XML Received is : " + responseXML);
 				System.out.println("Xml is Valid ?" + validXml);
 				System.out.println("\n");
-				System.out
-						.println("===============================================================================");
-
-				if (!validXml) {
-					// write to file
-					bw.write(mapData.get("name"));
-					bw.newLine();
-					bw.write("=====================================================================================");
-					bw.newLine();
-					bw.write(mapData.get("xml"));
-					bw.newLine();
-					bw.write("=====================================================================================");
-					bw.close();
-				}else{
-					bw.close();
-				}
-
+				System.out.println("===============================================================================");
+				writeToFile(bw, mapData, "");
 			}
 		} catch (Exception e) {
+			writeToFile(bw, mapData, e.getMessage());
 			e.printStackTrace();
 		}
 
 		return Response.status(200).entity("Processing Done....").build();
 	}
 
-	private boolean validateXMLSchema(String xsdPath, String xml) {
+	private void writeToFile(BufferedWriter bw, Map<String, String> mapData, String errorMessage) {
+		// write to file
+		try {
+			bw.write(mapData.get("name"));
+			bw.newLine();
+			bw.write("=====================================================================================");
+			bw.newLine();
+			bw.write(mapData.get("xml"));
+			bw.newLine();
+			bw.write("=====================================================================================");
+			if (errorMessage != "") {
+				bw.newLine();
+				bw.write("Error Received ===>>>");
+				bw.write("=====================================================================================");
+				bw.write("errorMessage");
+				bw.write("=====================================================================================");
+			}
+			bw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
-		SchemaFactory factory = SchemaFactory
-				.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+	private boolean validateXMLSchema(String xsdPath, String xml) throws SAXException, IOException {
+
+		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema;
 
-		try {
-			URL schemaFile = new URL(xsdPath);
-			HttpsURLConnection schemaConn = (HttpsURLConnection) schemaFile
-					.openConnection();
-			// ClassLoader classLoader = getClass().getClassLoader();
-			schema = factory.newSchema(schemaFile);
-			Validator validator = schema.newValidator();
-			InputStream stream = new ByteArrayInputStream(
-					xml.getBytes(StandardCharsets.UTF_8.name()));
-			validator.validate(new StreamSource(stream));
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
-
+		URL schemaFile = new URL(xsdPath);
+		schema = factory.newSchema(schemaFile);
+		Validator validator = schema.newValidator();
+		InputStream stream = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8.name()));
+		validator.validate(new StreamSource(stream));
 		return true;
 	}
 
@@ -151,8 +154,7 @@ public class RestClient {
 			}
 
 			String commaSeparatedIds = sb.toString();
-			List<String> tempIds = Arrays.asList(commaSeparatedIds
-					.split("\\s*,\\s*"));
+			List<String> tempIds = Arrays.asList(commaSeparatedIds.split("\\s*,\\s*"));
 
 			List<Long> ids = new ArrayList<Long>();
 

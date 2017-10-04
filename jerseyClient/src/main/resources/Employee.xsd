@@ -17,6 +17,7 @@
 			<element name="id" type="int"></element>
 			<element name="role" type="string"></element>
 			<element name="fullName" type="string"></element>
+			<element name="xsdNamePath" type="string"></element>
 		</sequence>
 	</complexType>
 </schema>
