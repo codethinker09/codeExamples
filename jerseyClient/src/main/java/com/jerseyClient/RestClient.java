@@ -75,6 +75,11 @@ public class RestClient {
 				ObjectMapper mapper = new ObjectMapper();
 				mapData = mapper.readValue(output, HashMap.class);
 
+				String responseXML = mapData.get("xml");
+				validateXMLSchema(
+						Intializer.getPropertyValue(Helper.getTagValue(responseXML, Constants.XSD_NAME_PATH_TAG)),
+						responseXML);
+
 				// parse XML here to fetch xsd name
 				writeToFile(bw, mapData, "");
 			}
@@ -89,6 +94,8 @@ public class RestClient {
 	private void writeToFile(BufferedWriter bw, Map<String, String> mapData, String errorMessage) {
 		// write to file
 		try {
+			bw.newLine();
+			bw.newLine();
 			bw.write(mapData.get("name"));
 			bw.newLine();
 			bw.write("=====================================================================================");
@@ -101,7 +108,9 @@ public class RestClient {
 				bw.write("Error Received ===>>>");
 				bw.newLine();
 				bw.write("=====================================================================================");
+				bw.newLine();
 				bw.write(errorMessage);
+				bw.newLine();
 				bw.write("=====================================================================================");
 			}
 			bw.close();
