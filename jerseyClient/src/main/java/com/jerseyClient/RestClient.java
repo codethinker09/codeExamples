@@ -57,14 +57,13 @@ public class RestClient {
 			for (Long id : ids) {
 
 				mapData = new HashMap<String, String>();
+				fw = new FileWriter(file, true);
+				bw = new BufferedWriter(fw);
 
 				bw.newLine();
 				bw.newLine();
 				bw.write("Input id =>" + id);
 				bw.newLine();
-
-				fw = new FileWriter(file, true);
-				bw = new BufferedWriter(fw);
 
 				Client client = ClientBuilder.newClient();
 				WebTarget webTarget = client.target(Intializer
@@ -97,7 +96,7 @@ public class RestClient {
 				// Basic Validation
 				boolean basicValidation = validateXMLSchema(
 						Intializer.getPropertyValue(Constants.BASIC_XSD),
-						responseXML);
+						responseXML, bw);
 				bw.newLine();
 				bw.write("Basic validation = " + basicValidation);
 
@@ -108,13 +107,13 @@ public class RestClient {
 							Intializer.getPropertyValue(Constants.XSD_MAPPING_INITIAL
 									+ Helper.getTagValue(responseXML,
 											Constants.XSD_NAME_PATH_TAG)),
-							responseXML);
+							responseXML, bw);
 					bw.newLine();
 					bw.write("Second validation = " + secondValidation);
 				}
+				
+				bw.close();
 
-				// parse XML here to fetch xsd name
-				writeToFile(bw, mapData, "");
 			}
 		} catch (Exception e) {
 			writeToFile(bw, mapData, e.getMessage());
@@ -153,8 +152,8 @@ public class RestClient {
 		}
 	}
 
-	private boolean validateXMLSchema(String xsdPath, String xml)
-			throws SAXException, IOException {
+	private boolean validateXMLSchema(String xsdPath, String xml,
+			BufferedWriter bw) throws SAXException, IOException {
 
 		try {
 			SchemaFactory factory = SchemaFactory
@@ -169,6 +168,14 @@ public class RestClient {
 			validator.validate(new StreamSource(stream));
 			return true;
 		} catch (Exception e) {
+			bw.newLine();
+			bw.write("Error Received ===>>>");
+			bw.newLine();
+			bw.write("=====================================================================================");
+			bw.newLine();
+			bw.write(e.getMessage());
+			bw.newLine();
+			bw.write("=====================================================================================");
 			return false;
 		}
 	}
