@@ -46,7 +46,8 @@ public class RestClient {
 		// Intializers
 		List<Long> ids = parseIdFile();
 		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource("/invalid_xml.txt").getFile());
+		File file = new File(classLoader.getResource("/invalid_xml.txt")
+				.getFile());
 		FileWriter fw = null;
 		BufferedWriter bw = null;
 
@@ -56,18 +57,25 @@ public class RestClient {
 			for (Long id : ids) {
 
 				mapData = new HashMap<String, String>();
-
 				fw = new FileWriter(file, true);
 				bw = new BufferedWriter(fw);
 
-				Client client = ClientBuilder.newClient();
-				WebTarget webTarget = client.target(Intializer.getPropertyValue(Constants.SERVICE_URL) + id);
+				bw.newLine();
+				bw.newLine();
+				bw.write("Input id =>" + id);
+				bw.newLine();
 
-				Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
+				Client client = ClientBuilder.newClient();
+				WebTarget webTarget = client.target(Intializer
+						.getPropertyValue(Constants.SERVICE_URL) + id);
+
+				Invocation.Builder invocationBuilder = webTarget
+						.request(MediaType.APPLICATION_JSON);
 				Response response = invocationBuilder.get();
 
 				if (response.getStatus() != 200) {
-					throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+					throw new RuntimeException("Failed : HTTP error code : "
+							+ response.getStatus());
 				}
 
 				String output = response.readEntity(String.class);
@@ -76,12 +84,36 @@ public class RestClient {
 				mapData = mapper.readValue(output, HashMap.class);
 
 				String responseXML = mapData.get("xml");
-				validateXMLSchema(
-						Intializer.getPropertyValue(Helper.getTagValue(responseXML, Constants.XSD_NAME_PATH_TAG)),
-						responseXML);
 
-				// parse XML here to fetch xsd name
-				writeToFile(bw, mapData, "");
+				bw.write(mapData.get("name"));
+				bw.newLine();
+				bw.write("=====================================================================================");
+				bw.newLine();
+				bw.write(responseXML);
+				bw.newLine();
+				bw.write("=====================================================================================");
+
+				// Basic Validation
+				boolean basicValidation = validateXMLSchema(
+						Intializer.getPropertyValue(Constants.BASIC_XSD),
+						responseXML, bw);
+				bw.newLine();
+				bw.write("Basic validation = " + basicValidation);
+
+				if (basicValidation) {
+					// perform 2nd validation based on formid
+
+					boolean secondValidation = validateXMLSchema(
+							Intializer.getPropertyValue(Constants.XSD_MAPPING_INITIAL
+									+ Helper.getTagValue(responseXML,
+											Constants.XSD_NAME_PATH_TAG)),
+							responseXML, bw);
+					bw.newLine();
+					bw.write("Second validation = " + secondValidation);
+				}
+				
+				bw.close();
+
 			}
 		} catch (Exception e) {
 			writeToFile(bw, mapData, e.getMessage());
@@ -91,7 +123,8 @@ public class RestClient {
 		return Response.status(200).entity("Processing Done....").build();
 	}
 
-	private void writeToFile(BufferedWriter bw, Map<String, String> mapData, String errorMessage) {
+	private void writeToFile(BufferedWriter bw, Map<String, String> mapData,
+			String errorMessage) {
 		// write to file
 		try {
 			bw.newLine();
@@ -119,17 +152,32 @@ public class RestClient {
 		}
 	}
 
-	private boolean validateXMLSchema(String xsdPath, String xml) throws SAXException, IOException {
+	private boolean validateXMLSchema(String xsdPath, String xml,
+			BufferedWriter bw) throws SAXException, IOException {
 
-		SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		Schema schema;
+		try {
+			SchemaFactory factory = SchemaFactory
+					.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+			Schema schema;
 
-		URL schemaFile = new URL(xsdPath);
-		schema = factory.newSchema(schemaFile);
-		Validator validator = schema.newValidator();
-		InputStream stream = new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8.name()));
-		validator.validate(new StreamSource(stream));
-		return true;
+			URL schemaFile = new URL(xsdPath);
+			schema = factory.newSchema(schemaFile);
+			Validator validator = schema.newValidator();
+			InputStream stream = new ByteArrayInputStream(
+					xml.getBytes(StandardCharsets.UTF_8.name()));
+			validator.validate(new StreamSource(stream));
+			return true;
+		} catch (Exception e) {
+			bw.newLine();
+			bw.write("Error Received ===>>>");
+			bw.newLine();
+			bw.write("=====================================================================================");
+			bw.newLine();
+			bw.write(e.getMessage());
+			bw.newLine();
+			bw.write("=====================================================================================");
+			return false;
+		}
 	}
 
 	private List<Long> parseIdFile() {
@@ -150,7 +198,8 @@ public class RestClient {
 			}
 
 			String commaSeparatedIds = sb.toString();
-			List<String> tempIds = Arrays.asList(commaSeparatedIds.split("\\s*,\\s*"));
+			List<String> tempIds = Arrays.asList(commaSeparatedIds
+					.split("\\s*,\\s*"));
 
 			List<Long> ids = new ArrayList<Long>();
 
