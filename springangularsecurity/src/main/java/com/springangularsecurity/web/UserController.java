@@ -1,7 +1,6 @@
 package com.springangularsecurity.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,33 +11,30 @@ import com.springangularsecurity.service.UserService;
 
 @RestController
 public class UserController {
-    @Autowired
-    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-    @Autowired
-    private SecurityService securityService;
+	@Autowired
+	private SecurityService securityService;
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(User userForm) {
+	@RequestMapping(value = "/registration", method = RequestMethod.POST)
+	public boolean registration(UserDto userDto) {
+		try {
+			userService.save(userDto);
+			securityService.autologin(userDto.getUsername(), userDto.getPassword());
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
-        userService.save(userForm);
-        securityService.autologin(userForm.getUsername(), userForm.getPasswordConfirm());
-        return "success";
-    }
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public boolean login(UserDto userDto) {
+		User user = userService.findByUsername(userDto.getUsername());
+		if (user != null) {
+			return true;
+		}
+		return false;
+	}
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(Model model, String error, String logout) {
-        if (error != null)
-            model.addAttribute("error", "Your username and password is invalid.");
-
-        if (logout != null)
-            model.addAttribute("message", "You have been logged out successfully.");
-
-        return "login";
-    }
-
-   /* @RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
-    public String welcome(Model model) {
-        return "welcome";
-    }*/
 }
