@@ -13,8 +13,7 @@ public class Intializer {
 		InputStream is = null;
 		try {
 			prop = new Properties();
-			ClassLoader loader = Thread.currentThread().getContextClassLoader();
-			is = loader.getResourceAsStream("/config.properties");
+			is = ClassLoader.class.getResourceAsStream("/config.properties");
 			prop.load(is);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

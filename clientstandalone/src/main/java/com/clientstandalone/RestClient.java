@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
@@ -38,9 +36,7 @@ public class RestClient {
 
 		// Intializers
 		List<Long> ids = parseIdFile();
-		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource("/invalid_xml.txt")
-				.getFile());
+		File file = new File(Intializer.getPropertyValue(Constants.OUTPUT_FILE));
 		FileWriter fw = null;
 		BufferedWriter bw = null;
 
@@ -174,10 +170,8 @@ public class RestClient {
 	private List<Long> parseIdFile() {
 		InputStream is;
 		try {
-			ClassLoader classLoader = getClass().getClassLoader();
-			File file = new File(classLoader.getResource("/id.txt").getFile());
+			is = this.getClass().getResourceAsStream("/id.txt");
 
-			is = new FileInputStream(file);
 			BufferedReader buf = new BufferedReader(new InputStreamReader(is));
 
 			String line = buf.readLine();
