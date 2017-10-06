@@ -1,0 +1,4 @@
+create db schema with name "loginregistration"
+Build - mvn clean install -DskipTests
+Run - mvn clean spring-boot:run -Dserver.port=9091
+url - http://localhost:9091
