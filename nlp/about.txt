@@ -1,0 +1,3 @@
+NLP based program
+	-- Uses apache open NLP library
+	-- ALl classes have main method which can be run separately
