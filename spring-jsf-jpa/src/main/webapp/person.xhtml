@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+	<title>JSF Spring Hibernate Integration</title>
+	<style type="text/css">
+.tg {
+	border-collapse: collapse;
+	border-spacing: 0;
+	border-color: #ccc;
+}
+
+.tg td {
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	padding: 10px 5px;
+	border-style: solid;
+	border-width: 1px;
+	overflow: hidden;
+	word-break: normal;
+	border-color: #ccc;
+	color: #333;
+	background-color: #fff;
+}
+
+.tg th {
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	font-weight: normal;
+	padding: 10px 5px;
+	border-style: solid;
+	border-width: 1px;
+	overflow: hidden;
+	word-break: normal;
+	border-color: #ccc;
+	color: #333;
+	background-color: #f0f0f0;
+}
+
+.tg .tg-4eph {
+	background-color: #f9f9f9
+}
+</style>
+
+ <script language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+ <script language="javascript" src="js/script.js"></script>
+ <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/ui-lightness/jquery-ui.css" type="text/css" media="all" />
+ <script language="javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+
+
+</h:head>
+<h:body>
+	<h1>Add a Person</h1>
+	<h:form>
+		<table>
+			<tr>
+				<td><label>Name</label></td>
+				<td><h:inputText id="name" value="#{person.name}"></h:inputText>
+				</td>
+			</tr>
+			<tr>
+				<td><label>Country</label></td>
+				<td><h:inputText id="country" value="#{person.country}"></h:inputText>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><h:commandButton
+						action="#{personService.addPerson(person)}" value="Add Person"></h:commandButton>
+				</td>
+			</tr>
+
+		</table>
+
+	</h:form>
+
+	<br />
+	<h3>Persons List</h3>
+
+	<c:if test="${!empty personService.listPersons()}">
+		<table class="tg">
+			<tr>
+				<th width="80">Person ID</th>
+				<th width="120">Person Name</th>
+				<th width="120">Person Country</th>
+			</tr>
+			<ui:repeat value="${personService.listPersons()}" var="person">
+				<tr>
+					<td>
+						${person.id}
+					</td>
+					<td><h:commandButton id="dialogClickBtn" value="${person.name}" onclick="initDialog('${person.name}','${person.country}'); return false;"></h:commandButton></td>
+					<td>${person.country}</td>
+				</tr>
+			</ui:repeat>
+		</table>
+	</c:if>
+
+ 		<h:panelGroup id="idOfDialogPlaceHolder" style="display:none">
+            <h:form prependId="false">
+            
+            <table>
+			<tr>
+				<td><label>Name</label></td>
+				<td><h:outputText id="name"></h:outputText>
+					<h:inputHidden id="nameHid" value="#{personTemp.name}"/>
+				</td>
+			</tr>
+			<tr>
+				<td><label>Country</label></td>
+				<td> <h:outputText id="country"></h:outputText>
+					 <h:inputHidden id="countryHid" value="#{personTemp.country}"/>
+				</td>
+			</tr>
+			<tr>
+				<td><label>Text</label></td>
+				<td><h:inputText id="text" value="#{personTemp.text}"></h:inputText>
+				</td>
+			</tr>
+			
+			<tr>
+				<td><label>Fav Color</label></td>
+				  <td><h:selectOneRadio value="#{personTemp.favColor}">
+			   			<f:selectItem itemValue="Red" itemLabel="Red" />
+			   			<f:selectItem itemValue="Green" itemLabel="Green" />
+			   			<f:selectItem itemValue="Blue" itemLabel="Blue" />
+		   			</h:selectOneRadio>
+   				</td>
+			</tr>
+   		
+			<tr>
+				<td colspan="2"><h:commandButton
+						action="#{personService.addPersonTemp(personTemp)}" value="Add Person Temp"></h:commandButton>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"> <h:commandButton id="justAButton" style="display:none"></h:commandButton></td>
+			</tr>
+
+		</table>
+		
+            </h:form>
+        </h:panelGroup>
+        
+</h:body>
+</html>
