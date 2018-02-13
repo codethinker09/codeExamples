@@ -17,7 +17,7 @@
 
         function Login(username, password, callback) {
 
-            $http.post('/login', { username: username, password: password })
+            $http.post('/userlogin', { username: username, password: password })
                 .success(function (response) {
                     callback(response);
                 });

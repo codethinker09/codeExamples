@@ -15,7 +15,7 @@
         return service;
 
         function GetByUsername(username) {
-            return $http.get('/login' + username).then(handleSuccess, handleError('Error getting user by username'));
+            return $http.get('/userlogin' + username).then(handleSuccess, handleError('Error getting user by username'));
         }
 
         function Create(user) {

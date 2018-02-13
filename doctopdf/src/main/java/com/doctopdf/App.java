@@ -11,7 +11,7 @@ import java.io.OutputStream;
 public class App {
 	public static void main(String[] args) throws Exception {
 
-		String inPath = "C:\\Users\\ankur.singhal\\Desktop\\testing\\AOPT_Payment_Plan_Addendum_12-10-2017.doc";
+		String inPath = "C:\\Users\\HP LAPTOP\\Desktop\\testing\\AOPT_Payment_Plan_Addendum_12-10-2017.doc";
 		String lowerCaseInPath = inPath.toLowerCase();
 
 		InputStream inStream = getInFileStream(inPath);

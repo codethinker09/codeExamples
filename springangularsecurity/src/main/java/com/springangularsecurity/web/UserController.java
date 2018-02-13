@@ -28,7 +28,7 @@ public class UserController {
 		}
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/userlogin", method = RequestMethod.GET)
 	public boolean login(UserDto userDto) {
 		User user = userService.findByUsername(userDto.getUsername());
 		if (user != null) {
